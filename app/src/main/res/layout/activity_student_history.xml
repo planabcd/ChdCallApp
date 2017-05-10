@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/s_search_bg" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="历史考勤"
+            android:textColor="@color/black_color"
+            android:textSize="20sp" />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="16dp"
+            android:layout_height="20dp"
+            android:background="@drawable/v1_7_back_blue_nor"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="返回"
+            android:textColor="@drawable/text_blue"
+            android:textSize="16sp"
+            />
+    </RelativeLayout>
+
+
+        <ListView
+            android:scrollbars="none"
+            android:id="@+id/lv_student_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"
+            android:background="#F8F8F8"
+            >
+
+        </ListView>
+</LinearLayout>

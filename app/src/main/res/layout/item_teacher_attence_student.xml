@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/RelativeLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+    >
+
+    <ImageView android:layout_width="40dp"
+               android:layout_height="40dp"
+               android:layout_centerVertical="true"
+               android:layout_gravity="center_vertical"
+               android:id="@+id/iv_number"
+               android:layout_margin="10dp"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/tv_student_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="田博"
+            android:textColor="@color/setting_color1" />
+        <TextView
+            android:id="@+id/tv_student_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="201324040213" />
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_attence_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="未考勤" />
+            <TextView
+                android:id="@+id/tv_attence_date"
+                android:layout_marginLeft="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="2017-10-19 10:21:00" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

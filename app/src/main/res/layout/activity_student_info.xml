@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+              android:orientation="vertical"
+    android:background="#F8F8F8" >
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/s_search_bg" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="个人信息"
+                android:textColor="@color/black_color"
+                android:textSize="20sp" />
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_width="16dp"
+                android:layout_height="20dp"
+                android:background="@drawable/v1_7_back_blue_nor"
+                android:layout_marginLeft="10dp"
+                />
+            <TextView
+                android:id="@+id/tv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="返回"
+                android:textColor="@drawable/text_blue"
+                android:textSize="16sp"
+                />
+        </RelativeLayout>
+
+    <LinearLayout
+        style="@style/style_middle_lay"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <RelativeLayout
+            style="@style/style_middle_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_name_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/setting_color1"
+                android:text="姓名" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/tv_left_margin"
+                android:textColor="@color/setting_color1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/tv_name_key"
+                android:text="田博" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/line" />
+        </LinearLayout>
+    <LinearLayout
+        style="@style/style_middle_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <RelativeLayout
+            style="@style/style_middle_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_student_id_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/setting_color1"
+                android:text="学号" />
+
+            <TextView
+                android:id="@+id/tv_student_id"
+                style="@style/tv_left_margin"
+                android:textColor="@color/setting_color1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/tv_student_id_key"
+                android:text="201324040211" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/line" />
+    </LinearLayout>
+    <LinearLayout
+        style="@style/style_middle_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <RelativeLayout
+            style="@style/style_middle_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_marjor_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/setting_color1"
+                android:text="专业" />
+
+            <TextView
+                android:id="@+id/tv_marjor"
+                style="@style/tv_left_margin"
+                android:textColor="@color/setting_color1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/tv_marjor_key"
+                android:text="通信工程" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/line" />
+    </LinearLayout>
+    <LinearLayout
+        style="@style/style_middle_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <RelativeLayout
+            style="@style/style_middle_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_academy_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/setting_color1"
+                android:text="学院" />
+
+            <TextView
+                android:id="@+id/tv_academy"
+                style="@style/tv_left_margin"
+                android:textColor="@color/setting_color1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/tv_academy_key"
+                android:text="信息工程学院" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/line" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/alert"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:gravity="center"
+        android:text="如果未绑定mac地址\n请先打开wifi,连接可用网络进行绑定"
+        android:textColor="#808080"
+        android:textSize="13.0sp" />
+    <LinearLayout
+        style="@style/style_middle_lay"
+        android:id="@+id/ll_mac"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <RelativeLayout
+            style="@style/style_middle_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_mac_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/setting_color1"
+                android:text="mac地址" />
+
+            <TextView
+                android:id="@+id/tv_mac"
+                style="@style/tv_left_margin"
+                android:textColor="@color/setting_color1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:singleLine="true"
+                android:ellipsize="middle"
+                android:layout_toRightOf="@+id/tv_mac_key"
+                android:text="未绑定,点击进行绑定" />
+            <ImageView
+                android:id="@+id/iv_call_detail"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="10dp"
+                android:scaleType="fitXY"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/mm_submenu" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/line" />
+    </LinearLayout>
+</LinearLayout>

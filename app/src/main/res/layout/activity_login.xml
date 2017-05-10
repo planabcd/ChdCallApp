@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/result_minor_text" >
+
+    <ScrollView
+        android:id="@+id/login_scroller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/joy"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="20dp"
+                android:minHeight="75dp"
+                android:minWidth="75dp"
+                android:padding="3dp"
+                android:src="@drawable/logo" />
+
+            <LinearLayout
+                android:id="@+id/login_edit_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/joy"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:background="@drawable/login_layout_editor_bg"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/user_name"
+                        android:textColor="@android:color/black"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/et_login_input_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:layout_marginRight="5dp"
+                        android:background="#fffbfbfb"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ffc8c8c8" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/user_password"
+                        android:textColor="@android:color/black"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/et_login_input_password"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="#fffbfbfb"
+                        android:inputType="textPassword"
+                        android:singleLine="true" />
+
+                    <CheckBox
+                        android:id="@+id/login_switchBtn"
+                        android:layout_width="55dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:button="@drawable/login_hide_password_selector"
+                        android:clickable="true" />
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ffc8c8c8" />
+                <RadioGroup
+                    android:id="@+id/rg_usertype"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/rb_teacher"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="  Teacher" />
+
+                    <RadioButton
+                        android:id="@+id/rb_student"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="  Student" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_below="@+id/login_edit_layout"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/login_layout_btn_bg"
+                android:text="@string/login"
+                android:textColor="@android:color/white"
+                android:textSize="15sp" />
+
+            <RelativeLayout
+                android:id="@+id/login_passfind_and_phonelogin"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/btn_login"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="13dp"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:id="@+id/tv_forgot_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/find_password"
+                    android:textColor="#ff288dfe"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="绑定手机"
+                    android:textColor="#ff288dfe"
+                    android:textSize="15sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_passfind_and_phonelogin"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="13dp"
+                android:gravity="center_vertical" >
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

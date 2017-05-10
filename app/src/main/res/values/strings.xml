@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">长安大学点名系统</string>
+    <string name="create_hostspot">创建WIFI热点</string>
+    <string name="close_hostspot">关闭WIFI热点</string>
+    <string name="send_data">发送数据</string>
+    <string name="search">搜索WIFI</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="user_name">用户名：</string>
+    <string name="user_password">密   码：</string>
+    <string name="login">登录</string>
+    <string name="find_password">找回密码</string>
+    <string name="phone_register">手机快速注册</string>
+    <string name="weixin_login">微信登录</string>
+    <string name="other_login">其他方式登录</string>
+</resources>

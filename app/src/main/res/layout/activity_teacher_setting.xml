@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:background="#f2f2f2"
+              android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/s_search_bg" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="设置"
+            android:textColor="@color/black_color"
+            android:textSize="20sp" />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="16dp"
+            android:layout_height="20dp"
+            android:background="@drawable/v1_7_back_blue_nor"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="返回"
+            android:textColor="@drawable/text_blue"
+            android:textSize="16sp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:id="@+id/rl_specil_call"
+        android:layout_width="fill_parent"
+        android:layout_height="42dip"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#ffffff"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_centerVertical="true"
+            android:text="考勤异常审批"
+            android:textSize="16sp"
+            android:textColor="#202020"
+
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dip"
+            android:scaleType="matrix"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/mm_submenu" />
+
+
+        <ImageView
+
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@drawable/line"
+            android:layout_alignParentBottom="true"
+
+            />
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:id="@+id/rl_about"
+        android:layout_width="fill_parent"
+        android:layout_height="42dip"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#ffffff"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_centerVertical="true"
+            android:text="关于"
+            android:textSize="16sp"
+            android:textColor="#202020"
+
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dip"
+            android:scaleType="matrix"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/mm_submenu" />
+
+        <ImageView
+
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@drawable/line"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_suggesion"
+        android:layout_marginTop="20dp"
+        android:layout_width="fill_parent"
+        android:layout_height="42dip"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#ffffff"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_centerVertical="true"
+            android:text="意见反馈"
+            android:textSize="16sp"
+            android:textColor="#202020"
+
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dip"
+            android:scaleType="matrix"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/mm_submenu" />
+
+        <ImageView
+
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@drawable/line"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_exit_login"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:layout_marginTop="15dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:text="退出登录"
+        android:textColor="@color/lightwhite"
+        android:textSize="16sp"
+        android:background="@drawable/button_exit_askfor"
+
+
+        />
+
+</LinearLayout>

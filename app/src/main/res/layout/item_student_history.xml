@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/RelativeLayout1"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:paddingTop="15dp"
+              android:paddingBottom="15dp"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp"
+    >
+
+    <LinearLayout
+        android:padding="14dp"
+        android:background="@drawable/shape_search"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:id="@+id/tv_attence_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#3e3e3e"
+                android:textSize="18sp"
+                android:text="已结束" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/tv_teacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#3e3e3e"
+                    android:layout_alignParentEnd="true"
+                    android:text="罗向龙"
+                    />
+                <TextView
+                    android:id="@+id/tv_course"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/tv_teacher"
+                    android:layout_marginRight="16dp"
+                    android:textColor="#3e3e3e"
+                    android:text="信号与系统" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                >
+                <TextView
+                    android:id="@+id/tv_attence_datetime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="#3e3e3e"
+                    android:text="打卡时间:2017-05-01 12:00:00-" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

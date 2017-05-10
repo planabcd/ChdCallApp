@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/s_search_bg" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="学生考勤"
+            android:textColor="@color/black_color"
+            android:textSize="20sp" />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="16dp"
+            android:layout_height="20dp"
+            android:background="@drawable/v1_7_back_blue_nor"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="返回"
+            android:textColor="@drawable/text_blue"
+            android:textSize="16sp"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="14dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/tv_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:text="刷新"
+                android:textColor="@drawable/text_blue"
+                android:layout_marginRight="14dp"
+                android:textSize="16sp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/text_state"
+        android:text="连接状态"
+        android:textSize="16sp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <ListView
+        android:id="@+id/lv_wifiinfo"
+        android:layout_marginTop="10dp"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:listSelector="@android:color/transparent"
+        android:scrollbars="none"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

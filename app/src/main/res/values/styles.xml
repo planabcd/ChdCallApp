@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+       <!-- <item name="colorPrimary">@color/result_view</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    </style>
+    <style name="style_middle_lay">
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+    <style name="style_middle_view">
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+    </style>
+    <style name="tv_left_margin" parent="android:Widget.TextView">
+        <item name="android:layout_marginLeft">12dp</item>
+    </style>
+
+
+</resources>
