@@ -169,7 +169,7 @@ public class StudentHistoryActivity extends AppCompatActivity implements View.On
             final Long state = studentAttenceVO.getState();
             String remark = studentAttenceVO.getRemark();
             if(state==1){
-                mTvAttenceState.setText("未打卡");
+                mTvAttenceState.setText("待打卡");
             }
             if(state==2){
                 mTvAttenceState.setText("已出勤");
@@ -179,7 +179,7 @@ public class StudentHistoryActivity extends AppCompatActivity implements View.On
                     mTvAttenceState.setText("待审批");
                     mTvAttenceState.setTextColor(Color.rgb(128,146,143));
                 }else{
-                    mTvAttenceState.setText("缺勤");
+                    mTvAttenceState.setText("已缺勤");
                     mTvAttenceState.setTextColor(Color.RED);
                 }
             }

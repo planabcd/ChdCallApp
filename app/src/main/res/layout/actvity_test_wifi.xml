@@ -39,4 +39,17 @@
         android:text="获取无密码热点SSID"
         android:onClick="getNoPwdSSID"
         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取MAC地址,通过热点"
+        android:onClick="getMac"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取MAC地址,通过wifi"
+        android:onClick="getMacWifi"
+        />
 </LinearLayout>

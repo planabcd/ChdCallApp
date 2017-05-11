@@ -43,7 +43,7 @@ public class Constant {
 
 
 
-	public static int ATTENCE_LENGTH = 1; //单位分钟
+	public static int ATTENCE_LENGTH = 1; //教师端考勤时间单位分钟
 
 
 }

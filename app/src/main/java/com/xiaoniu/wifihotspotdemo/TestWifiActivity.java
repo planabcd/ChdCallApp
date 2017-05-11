@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.xiaoniu.wifihotspotdemo.util.MacUtil;
 import com.xiaoniu.wifihotspotdemo.util.UIUtil;
 import com.xiaoniu.wifihotspotdemo.util.WifiAPManager;
 import com.xiaoniu.wifihotspotdemo.util.WifiWifiManager;
@@ -24,10 +25,6 @@ public class TestWifiActivity extends AppCompatActivity{
     private EditText mEtConnectName;
 
 
-
-    private static final int WIFICIPHER_NOPASS = 1;
-    private static final int WIFICIPHER_WEP = 2;
-    private static final int WIFICIPHER_WPA = 3;
 
 
 
@@ -66,6 +63,39 @@ public class TestWifiActivity extends AppCompatActivity{
             wifiAPManager.startWifiAp(s,"",true);
         }
 
+    }
+    /**
+     * 获取mac地址
+     */
+    public void getMac(View v) {
+        UIUtil.showToastS(this,"getMac click");
+        if(wifiWifiManager.isWifiActive()){
+            wifiWifiManager.closeWifi();
+        }
+        wifiAPManager.startWifiAp("test","",true);
+        String s = MacUtil.recupAdresseMAC(wifiManager);
+        if(!MacUtil.marshmallowMacAddress.equals(s)){
+            UIUtil.showToastS(this,"mac:"+s);
+        }else{
+            UIUtil.showToastS(this,"mac none");
+        }
+    }
+
+    /**
+     * 获取mac地址,通过wifi
+     */
+    public void getMacWifi(View v) {
+        UIUtil.showToastS(this,"getMacWifi click");
+        if(!wifiWifiManager.isWifiActive()){
+            wifiWifiManager.openWifi();
+            String s = MacUtil.recupAdresseMAC(wifiManager);
+            if(!MacUtil.marshmallowMacAddress.equals(s)){
+                UIUtil.showToastS(this,"mac:"+s);
+            }else{
+                UIUtil.showToastS(this,"mac none");
+            }
+        }
+        UIUtil.showToastS(this,"mac none");
     }
 
     /**

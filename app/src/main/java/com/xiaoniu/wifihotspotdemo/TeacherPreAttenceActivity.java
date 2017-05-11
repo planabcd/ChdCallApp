@@ -152,7 +152,7 @@ public class TeacherPreAttenceActivity extends FragmentActivity implements View.
                 backUp.setTeacherAttenceId(teacherAttence.getId());
                 String backUpStr = gson.toJson(backUp);
                 PrefUtils.setString(TeacherPreAttenceActivity.this,"teacherAttence_backup_"+mTeacher.getTeacherId(),backUpStr);
-                UIUtil.ok(TeacherPreAttenceActivity.this, "确认开始考勤?", "SSID:" + teacherAttence.getWifiName() + "\nPWD:" + teacherAttence.getWifiPwd(), new UIUtil.AlterCallBack() {
+                UIUtil.okNoCancel(TeacherPreAttenceActivity.this, "确认开始考勤", "SSID:" + teacherAttence.getWifiName() + "\nPWD:" + teacherAttence.getWifiPwd(), new UIUtil.AlterCallBack() {
                     @Override
                     public void confirm() {
                         openWifiHot();

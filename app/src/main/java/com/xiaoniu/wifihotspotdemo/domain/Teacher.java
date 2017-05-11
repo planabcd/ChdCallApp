@@ -13,6 +13,15 @@ public class Teacher{
     private Date created;
     private Date updated;
     private Long id;
+    private String macAddress;
+
+    public String getMacAddress() {
+        return macAddress;
+    }
+
+    public void setMacAddress(String macAddress) {
+        this.macAddress = macAddress;
+    }
     public Long getId() {
         return id;
     }

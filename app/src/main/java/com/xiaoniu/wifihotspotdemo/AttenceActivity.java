@@ -20,12 +20,11 @@ import com.google.gson.reflect.TypeToken;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.StudentAttence;
 import com.xiaoniu.wifihotspotdemo.domain.Teacher;
-import com.xiaoniu.wifihotspotdemo.domain.TeacherAttence;
 import com.xiaoniu.wifihotspotdemo.domain.TeacherAttenceBackUp;
+import com.xiaoniu.wifihotspotdemo.util.AttenceWifiUtil;
 import com.xiaoniu.wifihotspotdemo.util.GsonBuilderUtil;
 import com.xiaoniu.wifihotspotdemo.util.PrefUtils;
 import com.xiaoniu.wifihotspotdemo.util.UIUtil;
-import com.xiaoniu.wifihotspotdemo.util.WifiUtil;
 import com.xiaoniu.wifihotspotdemo.view.CountdownView;
 
 import org.xutils.common.Callback;
@@ -52,16 +51,20 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
     private TextView mTvAttenceDate;
     private MyAdapter mMyAdapter;
     private TextView mTvRefresh;
-    private volatile boolean firstVisit = true;
 
     private TextView mTvCancel;
     private TextView mTvBack;
     private Teacher mTeacher;
     private volatile Boolean isEnd = false;
+    private volatile Boolean isFirstVisit = true;
 
     private TeacherAttenceBackUp mTeacherAttenceBackUp;
     private CountdownView mCvCountdownViewTest2;
-
+    private AttenceWifiUtil mAttenceWifiUtil;
+    private String mWifiName;
+    //是否初始化倒计时控件
+    private volatile boolean isInitTime = true;
+    private long time;
 
 
     @Override
@@ -69,51 +72,47 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attence);
         initView();
+        initTime();
+        initWifi();
         queryStudentAttence();
 
     }
-    private void initView() {
-        String json = PrefUtils.getString(this, "teacher", null);
-        if(TextUtils.isEmpty(json)){
-            UIUtil.showToast(this,"登录失效,请重新登录");
-            Intent it = new Intent(this, LoginActivity.class);
-            startActivity(it);
-            finish();
-            return;
+
+
+
+
+
+
+    /**
+     * 初始化倒计时,并开启热点
+     */
+    private void initOpenAp(){
+//        boolean wifiHotspot = WifiUtil.createWifiHotspot(AttenceActivity.this, mTeacherAttenceBackUp.getWifiName(), mTeacherAttenceBackUp.getWifiPwd());
+        boolean wifiHotspot = mAttenceWifiUtil.craeteNoPwdAP(mWifiName);
+        if(wifiHotspot && isInitTime){
+            if(isFirstVisit){
+                mCvCountdownViewTest2.start(time);
+                isFirstVisit = false;
+            }else{
+                mCvCountdownViewTest2.start(mCvCountdownViewTest2.getRemainTime());
+            }
+
+        }else{
+            UIUtil.alert(AttenceActivity.this, "开启热点失败","请重试", new UIUtil.AlterCallBack() {
+                @Override
+                public void confirm() {
+                    initOpenAp();
+                }
+            });
         }
-        Gson gson = GsonBuilderUtil.create();
-        mTeacher = gson.fromJson(json, Teacher.class);
-        String backUpStr = PrefUtils.getString(this, "teacherAttence_backup_" + mTeacher.getTeacherId(), null);
-        if(TextUtils.isEmpty(backUpStr)){
-            UIUtil.showToast(this,"获取考勤信息失败,请稍后重试");
-            return;
-        }
-        mTeacherAttenceBackUp = gson.fromJson(backUpStr, TeacherAttenceBackUp.class);
-        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    }
 
-        mTvBack = (TextView) findViewById(tv_back);
-        mTvRefresh = (TextView) findViewById(R.id.tv_refresh);
-        mLvTeacherAttenceStudent = (ListView) findViewById(R.id.lv_teacher_attence_student);
-        mTvCancel = (TextView) findViewById(R.id.tv_cancel);
-
-        mTvRefresh.setOnClickListener(this);
-        mTvCancel.setOnClickListener(this);
-        mTvBack.setOnClickListener(this);
-
-        mLvTeacherAttenceStudent.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right,
-                                       int bottom, int oldLeft, int oldTop, int oldRight,
-                                       int oldBottom) {
-                //如果是第一次进入,开启热点
-                if(firstVisit){
-                    boolean wifiHotspot = WifiUtil.createWifiHotspot(AttenceActivity.this, mTeacherAttenceBackUp.getWifiName(), mTeacherAttenceBackUp.getWifiPwd());
-                    if(wifiHotspot){
-                        //开始计时
-                        mCvCountdownViewTest2 = (CountdownView)findViewById(R.id.cv_countdownViewTest2);
-
-                        //计算倒计时初值
-                        long time = (long)1 * 15 * 1000;
+    /**
+     * 初始化倒计时控件
+     */
+    private void initTime(){
+        //计算倒计时初值
+        time = (long)1 * 15 * 1000;
                        /* Calendar calendar = Calendar.getInstance();
                         String startTime = mTeacherAttenceBackUp.getStartTime();
                         try {
@@ -121,27 +120,24 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
                             calendar.setTime(startDate);
                             calendar.add(Calendar.MINUTE,Constant.ATTENCE_LENGTH);
                             Date endDate = calendar.getTime();
-                            if(endDate.getTime()-new Date().getTime()>0){
-                                time = endDate.getTime()-startDate.getTime();
-                            }
+                            time = endDate.getTime()-startDate.getTime();
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }*/
-                        mCvCountdownViewTest2.start(time);
-                        mCvCountdownViewTest2.customTimeShow(false,false,true,true,true);
-                        mCvCountdownViewTest2.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
-                            @Override
-                            public void onEnd(CountdownView cv) {
-                                doCancelAction();
-                            }
-                        });
-                        firstVisit = false;
-                    }
-
-                }
+        if(time<=0){
+            isInitTime = false;
+            doCancelAction();
+            return;
+        }
+        mCvCountdownViewTest2 = (CountdownView)findViewById(R.id.cv_countdownViewTest2);
+        mCvCountdownViewTest2.customTimeShow(false,false,true,true,true);
+        mCvCountdownViewTest2.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
+            @Override
+            public void onEnd(CountdownView cv) {
+                isInitTime = false;
+                doCancelAction();
             }
         });
-
     }
 
 
@@ -157,12 +153,15 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
             });
             return;
         }
-        if(mCvCountdownViewTest2!=null){
+
+        //如果已经初始化了倒计时控件,暂停倒计时
+        if(isInitTime && mCvCountdownViewTest2!=null){
+//            time = mCvCountdownViewTest2.getRemainTime();
             mCvCountdownViewTest2.stop();
         }
         new SweetAlertDialog(AttenceActivity.this, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("是否关闭热点")
-                .setContentText( "如果关闭热点,考勤将终止,未打卡学生将视为缺勤")
+                .setTitleText("是否关闭考勤")
+                .setContentText( "如果确认,考勤将终止,未打卡学生将视为缺勤")
                 .setCancelText("取消")
                 .setConfirmText("确认")
                 .showCancelButton(true)
@@ -170,9 +169,16 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
                         sDialog.cancel();
-                        if(mCvCountdownViewTest2!=null && mCvCountdownViewTest2.getRemainTime()>0){
-                            mCvCountdownViewTest2.start(mCvCountdownViewTest2.getRemainTime());
+                        if(!mAttenceWifiUtil.isApActivie()){
+                            initOpenAp();
+                            return;
+                        }else{
+                            if(isInitTime){
+                                long remainTime = mCvCountdownViewTest2.getRemainTime();
+                                mCvCountdownViewTest2.start(remainTime);
+                            }
                         }
+
                     }
                 }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
@@ -212,6 +218,7 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
                     }else{
                         mMyAdapter = new MyAdapter();
                         mLvTeacherAttenceStudent.setAdapter(mMyAdapter);
+                        initOpenAp();
                     }
                 }
             }
@@ -236,9 +243,9 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
         switch (view.getId()){
             case tv_back:
                 if(!isEnd){
-                    new SweetAlertDialog(AttenceActivity.this, SweetAlertDialog.WARNING_TYPE)
+                    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("确认离开")
-                            .setContentText("是否终止当前考勤")
+                            .setContentText("当前考勤尚未结束,是否终止当前考勤")
                             .setCancelText("取消")
                             .setConfirmText("确认")
                             .showCancelButton(true)
@@ -254,11 +261,11 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
                         @Override
                         public void onClick(final SweetAlertDialog sweetAlertDialog) {
                             sweetAlertDialog.dismiss();
-                            doCancelAction();
+                            cancelCall();
                         }
                     }).show();
                 }else{
-                    Intent intent = new Intent(AttenceActivity.this, TeacherPreAttenceActivity.class);
+                    Intent intent = new Intent(this, TeacherPreAttenceActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -287,18 +294,20 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onSuccess(String result) {
                 Log.i("TAG","教师终止考勤返回信息:"+result);
-                if(TextUtils.isEmpty(result)){
+                if(TextUtils.isEmpty(result) || result.length()<3){
                     Toast.makeText(x.app(), "终止考勤失败,请稍后重试", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Gson gson = GsonBuilderUtil.create();
-                TeacherAttence teacherAttence = gson.fromJson(result,TeacherAttence.class);
-                if(teacherAttence==null){
-                    Toast.makeText(x.app(), "终止考勤失败,请稍后重试", Toast.LENGTH_LONG).show();
-                    return;
+                //关闭倒计时
+                if(isInitTime && mCvCountdownViewTest2!=null){
+                    mCvCountdownViewTest2.stop();
                 }
-                //删除缓存
+                //关闭热点
+                if(mAttenceWifiUtil.isApActivie()){
+                    mAttenceWifiUtil.closeNoPwdAP();
+                }
                 isEnd = true;
+                //删除缓存
                 PrefUtils.setString(AttenceActivity.this, "teacherAttence_backup_" + mTeacher.getTeacherId(), "");
                 UIUtil.ok(AttenceActivity.this, "终止考勤成功", "刷新学生考勤数据", new UIUtil.AlterCallBack() {
                     @Override
@@ -322,6 +331,13 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
             public void onFinished() {
             }
         });
+    }
+
+    /**
+     * 初始化wifi工具类
+     */
+    private void initWifi(){
+        mAttenceWifiUtil = AttenceWifiUtil.getInstance(this);
     }
 
     class MyAdapter extends BaseAdapter{
@@ -352,6 +368,7 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
             mTvAttenceDate = (TextView) view.findViewById(R.id.tv_attence_date);
 
             Long state = studentAttence.getState();
+            String remark = studentAttence.getRemark();
             if(state==1){
                 mTvAttenceState.setText("待打卡");
             }
@@ -359,8 +376,13 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
                 mTvAttenceState.setText("已出勤");
             }
             if(state==3){
-                mTvAttenceState.setText("未打卡");
-                mTvAttenceState.setTextColor(Color.RED);
+                if(!TextUtils.isEmpty(remark)){
+                    mTvAttenceState.setText("待审批");
+                    mTvAttenceState.setTextColor(Color.rgb(128,146,143));
+                }else{
+                    mTvAttenceState.setText("已缺勤");
+                    mTvAttenceState.setTextColor(Color.RED);
+                }
             }
             mTvStudentId.setText(studentAttence.getStudentId()+"");
             mTvStudentName.setText(studentAttence.getName());
@@ -381,4 +403,34 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    private void initView() {
+        String json = PrefUtils.getString(this, "teacher", null);
+        if(TextUtils.isEmpty(json)){
+            UIUtil.showToast(this,"登录失效,请重新登录");
+            Intent it = new Intent(this, LoginActivity.class);
+            startActivity(it);
+            finish();
+            return;
+        }
+        Gson gson = GsonBuilderUtil.create();
+        mTeacher = gson.fromJson(json, Teacher.class);
+        String backUpStr = PrefUtils.getString(this, "teacherAttence_backup_" + mTeacher.getTeacherId(), null);
+        if(TextUtils.isEmpty(backUpStr)){
+            UIUtil.showToast(this,"获取考勤信息失败,请稍后重试");
+            return;
+        }
+        mTeacherAttenceBackUp = gson.fromJson(backUpStr, TeacherAttenceBackUp.class);
+        mWifiName = mTeacherAttenceBackUp.getWifiName();
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        mTvBack = (TextView) findViewById(tv_back);
+        mTvRefresh = (TextView) findViewById(R.id.tv_refresh);
+        mLvTeacherAttenceStudent = (ListView) findViewById(R.id.lv_teacher_attence_student);
+        mTvCancel = (TextView) findViewById(R.id.tv_cancel);
+
+        mTvRefresh.setOnClickListener(this);
+        mTvCancel.setOnClickListener(this);
+        mTvBack.setOnClickListener(this);
+
+    }
 }
