@@ -13,6 +13,15 @@ public class StudentAttenceVO extends BaseModel{
     private Long teacherAttenceId;
     private String teacherName;
     private String courseName;
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public String getTeacherName() {
         return teacherName;

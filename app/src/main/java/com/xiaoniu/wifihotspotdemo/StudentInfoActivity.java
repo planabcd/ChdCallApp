@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.Student;
 import com.xiaoniu.wifihotspotdemo.util.GsonBuilderUtil;
+import com.xiaoniu.wifihotspotdemo.util.MacUtil;
 import com.xiaoniu.wifihotspotdemo.util.NetWorkUtil;
 import com.xiaoniu.wifihotspotdemo.util.PrefUtils;
 import com.xiaoniu.wifihotspotdemo.util.UIUtil;
@@ -75,11 +76,9 @@ public class StudentInfoActivity extends AppCompatActivity implements View.OnCli
         mTvAcademy.setText(mStudent.getAcademy());
         mTvStudentId.setText(mStudent.getStuId()+"");
         mWifiManager = (WifiManager)getSystemService(Context.WIFI_SERVICE);
-        mMacAddress = PrefUtils.getString(this, "macAddress", null);
-        if(TextUtils.isEmpty(mMacAddress)){
-            //未绑定mac地址
-            getMacAddress();
-        }else{
+        mMacAddress = mStudent.getMacAddress();
+        //如果已经绑定过mac地址,个人信息展示mac地址
+        if(!TextUtils.isEmpty(mMacAddress)){
             mTvMac.setText(mMacAddress);
         }
     }
@@ -88,9 +87,9 @@ public class StudentInfoActivity extends AppCompatActivity implements View.OnCli
      * 获取mac地址,如果获取成功,绑定操作
      */
     private void getMacAddress() {
-        String mac = mWifiManager.getConnectionInfo().getMacAddress();
-        if(TextUtils.isEmpty(mac)){
-            UIUtil.alert(this, "无法获取mac地址","请连接有效wifi网络,再绑定mac地址" , new UIUtil.AlterCallBack() {
+        String mac = MacUtil.recupAdresseMAC(mWifiManager);
+        if(mac.equals(MacUtil.marshmallowMacAddress)){
+            UIUtil.alert(StudentInfoActivity.this, "无法获取有效mac地址","请连接有效wifi网络后重试", new UIUtil.AlterCallBack() {
                 @Override
                 public void confirm() {
                 }
@@ -107,15 +106,15 @@ public class StudentInfoActivity extends AppCompatActivity implements View.OnCli
         NetWorkUtil.post(Constant.URL_STUDNET_BIND_MAC_ADDRESS, params, new NetWorkUtil.Worker() {
             @Override
             public void success(String result, Gson gson) {
-                Student student = gson.fromJson(result, Student.class);
-                UIUtil.okNoCancel(StudentInfoActivity.this, "绑定mac地址成功", "macAddress:"+macAddress, new UIUtil.AlterCallBack() {
-                    @Override
-                    public void confirm() {
-                        //保存mac地址
-                        PrefUtils.setString(StudentInfoActivity.this,"macAddress",macAddress);
-                        mTvMac.setText(macAddress);
-                    }
-                });
+                UIUtil.okNoCancel(StudentInfoActivity.this, "绑定mac地址成功", "姓名:"+mStudent.getName()+"\nmacAddress:"+macAddress, new UIUtil.AlterCallBack() {
+                @Override
+                public void confirm() {
+                }
+            });
+            //更新student缓存
+            PrefUtils.setString(StudentInfoActivity.this,"student",result);
+            //展示mac地址
+            mTvMac.setText(macAddress);
 
             }
         });

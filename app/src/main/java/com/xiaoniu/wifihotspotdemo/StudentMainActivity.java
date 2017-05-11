@@ -36,8 +36,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.xiaoniu.wifihotspotdemo.R.id.text_state;
-
 public class StudentMainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView mTvBack;
@@ -180,13 +178,11 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
                 wifiListAdapter.addAll(scanResults);
                 if(scanResults!=null && scanResults.size()!=0){
                     for(ScanResult s : scanResults){
-                        if(wifiName.equals(s.SSID)){
-                            if(mFirstCall){
-                                //找到教师开启的热点
-                                mFirstCall = false;
-                                UIUtil.showToast(StudentMainActivity.this,"找到教师热点,正在连接");
-                                connectTeacher(s);
-                            }
+                        if(wifiName.equals(s.SSID) && mFirstCall){
+                            //找到教师开启的热点
+                            mFirstCall = false;
+                            UIUtil.showToast(StudentMainActivity.this,"找到教师热点,正在连接");
+                            connectTeacher(s);
                         }
                     }
                 }
@@ -211,13 +207,25 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
                     final WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                     mTextState.setText("已连接到网络:" + wifiInfo.getSSID());
                     if(wifiInfo.getSSID().trim().replaceAll("\"","").equals(wifiName)){
+                        int networkId = wifiInfo.getNetworkId();
+                        /*boolean hiddenSSID = wifiInfo.getHiddenSSID();
+                        UIUtil.showToastS(StudentMainActivity.this,"hiddenSSID:"+hiddenSSID);
+                        if(networkId!=1){
+                            UIUtil.alert(StudentMainActivity.this, "请注意","你连接了假冒伪劣热点", new UIUtil.AlterCallBack() {
+                                @Override
+                                public void confirm() {
+                                    //TODO
+                                }
+                            });
+                            return;
+                        }*/
                         //关闭wifi
-                        if (wifiManager.isWifiEnabled()) {
+                        /*if (wifiManager.isWifiEnabled()) {
                             //如果wifi处于打开状态，则关闭wifi,
                             wifiManager.setWifiEnabled(false);
-                        }
+                        }*/
                         //上传考勤信息
-                        UIUtil.ok(StudentMainActivity.this, "考勤成功", "请确认是否上传考勤信息\n如果未上传会被视为缺勤", new UIUtil.AlterCallBack() {
+                        UIUtil.okNoCancel(StudentMainActivity.this, "考勤成功", "请确认是否上传考勤信息\n如果未上传会被视为缺勤", new UIUtil.AlterCallBack() {
                             @Override
                             public void confirm() {
                                 uploadCall();
@@ -257,17 +265,15 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
                     Toast.makeText(x.app(), "上传考勤信息错误,请联网后重试", Toast.LENGTH_LONG).show();
                     return;
                 }
-
                 String name = mStudent.getName();
                 Long id = mStudent.getId();
                 String msg = "学号:"+id+"\n"+"姓名:"+name;
-
                 UIUtil.okNoCancel(StudentMainActivity.this, "考勤成功,确认退出", msg, new UIUtil.AlterCallBack() {
                     @Override
                     public void confirm() {
-                        finish();
                         Intent intent = new Intent(StudentMainActivity.this, HomeActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
 

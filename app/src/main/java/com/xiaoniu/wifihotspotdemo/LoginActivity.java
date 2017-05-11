@@ -32,18 +32,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private RadioGroup mRgUsertype;
     private Button mBtnLogin;
     private TextView mTvForgotPwd;
+    private TextView mTvBind;
+   
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
         initListener();
-
     }
+
+    
 
     private void initListener() {
         mBtnLogin.setOnClickListener(this);
         mTvForgotPwd.setOnClickListener(this);
+        mTvBind.setOnClickListener(this);
+
     }
 
     private void initView() {
@@ -52,7 +58,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mRgUsertype = (RadioGroup) findViewById(R.id.rg_usertype);
         mBtnLogin = (Button) findViewById(R.id.btn_login);
         mTvForgotPwd = (TextView) findViewById(R.id.tv_forgot_pwd);
+        mTvBind = (TextView) findViewById(R.id.tv_bind);
 
+       
     }
 
 
@@ -63,14 +71,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 login();
                 break;
             case R.id.tv_forgot_pwd:
-                other();
+                fogotPwd();
+                break;
+            case R.id.tv_bind:
+                bind();
                 break;
             default:
                 break;
         }
     }
 
-    private void other() {
+    /**
+     * 创建热点
+     */
+    private void bind() {
+        Intent it = new Intent(LoginActivity.this,TestWifiActivity.class);
+        startActivity(it);
+        finish();
+    }
+
+    /**
+     * 忘记密码
+     */
+    private void fogotPwd() {
+
     }
 
     private void login() {

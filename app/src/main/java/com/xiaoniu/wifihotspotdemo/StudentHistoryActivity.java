@@ -167,6 +167,7 @@ public class StudentHistoryActivity extends AppCompatActivity implements View.On
             TextView mTvAttenceDatetime = (TextView) view.findViewById(R.id.tv_attence_datetime);
 
             final Long state = studentAttenceVO.getState();
+            String remark = studentAttenceVO.getRemark();
             if(state==1){
                 mTvAttenceState.setText("未打卡");
             }
@@ -174,8 +175,13 @@ public class StudentHistoryActivity extends AppCompatActivity implements View.On
                 mTvAttenceState.setText("已出勤");
             }
             if(state==3){
-                mTvAttenceState.setText("缺勤");
-                mTvAttenceState.setTextColor(Color.RED);
+                if(!TextUtils.isEmpty(remark)){
+                    mTvAttenceState.setText("待审批");
+                    mTvAttenceState.setTextColor(Color.rgb(128,146,143));
+                }else{
+                    mTvAttenceState.setText("缺勤");
+                    mTvAttenceState.setTextColor(Color.RED);
+                }
             }
             mTvTeacher.setText(studentAttenceVO.getTeacherName());
             //设置课程

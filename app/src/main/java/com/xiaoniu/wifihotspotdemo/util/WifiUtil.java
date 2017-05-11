@@ -58,6 +58,48 @@ public class WifiUtil {
         }
     }
 
+    /**
+     * 创建无密码Wifi热点
+     */
+    public static boolean createWifiHotspotNoPwd(Context context,String ssid) {
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        if (wifiManager.isWifiEnabled()) {
+            //如果wifi处于打开状态，则关闭wifi,
+            wifiManager.setWifiEnabled(false);
+        }
+        WifiConfiguration config = new WifiConfiguration();
+        config.SSID = ssid;
+        config.networkId = 1;
+        config.allowedAuthAlgorithms.clear();
+        config.allowedGroupCiphers.clear();
+        config.allowedKeyManagement.clear();
+        config.allowedPairwiseCiphers.clear();
+        config.allowedProtocols.clear();
+        config.hiddenSSID = true;
+
+        config.wepKeys[0] = "";
+        config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+        config.wepTxKeyIndex = 0;
+        //通过反射调用设置热点
+        try {
+            Method method = wifiManager.getClass().getMethod(
+                    "setWifiApEnabled", WifiConfiguration.class, Boolean.TYPE);
+            boolean enable = (Boolean) method.invoke(wifiManager, config, true);
+            if (enable) {
+                UIUtil.showToast(context,"无密码热点已开启 SSID:" + ssid );
+            } else {
+                UIUtil.showToast(context,"创建热点失败");
+            }
+            return enable;
+        } catch (Exception e) {
+            e.printStackTrace();
+            UIUtil.showToast(context,"创建热点失败");
+            return false;
+        }
+    }
+
+
+
 
     /**
      * 关闭WiFi热点
@@ -83,4 +125,7 @@ public class WifiUtil {
     }
 
 
+    public static void connectHotSpot(Context ctx,String ssid,String pwd){
+
+    }
 }
