@@ -2,6 +2,7 @@ package com.xiaoniu.wifihotspotdemo;
 
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -112,6 +113,13 @@ public class TestWifiActivity extends AppCompatActivity{
      * 获取bssid
      */
     public void getNoPwdSSID(View v) {
+        WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+        if (connectionInfo != null) {
+            String bssid = connectionInfo.getBSSID();
+            UIUtil.showToastS(this,"bssid:"+bssid);
+        }else{
+            UIUtil.showToastS(this,"con is null");
+        }
     }
     /**
      * 连接指定wifi

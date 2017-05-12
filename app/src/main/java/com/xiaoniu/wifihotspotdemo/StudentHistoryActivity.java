@@ -161,7 +161,7 @@ public class StudentHistoryActivity extends AppCompatActivity implements View.On
             View view = View.inflate(getApplicationContext(),R.layout.item_student_history, null);
             final StudentAttenceVO studentAttenceVO = studentAttenceVOs.get(position);
 
-            TextView mTvAttenceState = (TextView) view.findViewById(R.id.tv_attence_state);
+            final TextView mTvAttenceState = (TextView) view.findViewById(R.id.tv_attence_state);
             TextView mTvCourse = (TextView) view.findViewById(R.id.tv_course);
             TextView mTvTeacher = (TextView) view.findViewById(R.id.tv_teacher);
             TextView mTvAttenceDatetime = (TextView) view.findViewById(R.id.tv_attence_datetime);
@@ -198,6 +198,11 @@ public class StudentHistoryActivity extends AppCompatActivity implements View.On
                 @Override
                 public void onClick(View view) {
                     if(state==3){
+                        String desc = mTvAttenceState.getText().toString();
+                        if(!TextUtils.isEmpty(desc) && "待审批".equals(desc)){
+                            UIUtil.okTips(StudentHistoryActivity.this,"正在审批","请勿重复提交");
+                            return;
+                        }
                         UIUtil.alert(StudentHistoryActivity.this, "请确认","是否提报考勤异常\n课程:"+studentAttenceVO.getCourseName(), new UIUtil.AlterCallBack() {
                             @Override
                             public void confirm() {

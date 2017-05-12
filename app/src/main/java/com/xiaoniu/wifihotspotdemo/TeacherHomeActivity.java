@@ -98,8 +98,19 @@ public class TeacherHomeActivity extends AppCompatActivity implements View.OnCli
      * 教师进入考勤配置界面
      */
     private void startCall() {
-        Intent intent = new Intent(this, TeacherPreAttenceActivity.class);
-        startActivity(intent);
+        String macAddress = mTeacher.getMacAddress();
+        if(TextUtils.isEmpty(macAddress)){
+            UIUtil.alert(TeacherHomeActivity.this, "请先绑定mac地址","如果不绑定mac地址无法进行考勤", new UIUtil.AlterCallBack() {
+                @Override
+                public void confirm() {
+                    Intent it = new Intent(TeacherHomeActivity.this,TeacherSettingActivity.class);
+                    startActivity(it);
+                }
+            });
+            return;
+        }
+        Intent it = new Intent(this,TeacherPreAttenceActivity.class);
+        startActivity(it);
     }
     /**
      * 其他设置

@@ -17,7 +17,15 @@ public class TeacherAttenceVO extends BaseModel{
     private String wifiName;
     private String wifiPwd;
     private String courseName;
+    private String macAddress;
 
+    public String getMacAddress() {
+        return macAddress;
+    }
+
+    public void setMacAddress(String macAddress) {
+        this.macAddress = macAddress;
+    }
     public String getCourseName() {
         return courseName;
     }

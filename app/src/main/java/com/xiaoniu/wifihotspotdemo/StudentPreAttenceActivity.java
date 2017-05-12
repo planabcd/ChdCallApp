@@ -20,7 +20,7 @@ import com.xiaoniu.wifihotspotdemo.domain.Course;
 import com.xiaoniu.wifihotspotdemo.domain.LocationInfo;
 import com.xiaoniu.wifihotspotdemo.domain.Student;
 import com.xiaoniu.wifihotspotdemo.domain.StudentAttence;
-import com.xiaoniu.wifihotspotdemo.domain.TeacherAttence;
+import com.xiaoniu.wifihotspotdemo.domain.TeacherAttenceVO;
 import com.xiaoniu.wifihotspotdemo.util.GsonBuilderUtil;
 import com.xiaoniu.wifihotspotdemo.util.NetWorkUtil;
 import com.xiaoniu.wifihotspotdemo.util.PrefUtils;
@@ -143,8 +143,8 @@ public class StudentPreAttenceActivity extends AppCompatActivity implements View
     /**
      * 开启wifi准备连接热点
      */
-    private void saveAttence(final TeacherAttence teacherAttence) {
-        if(TextUtils.isEmpty(teacherAttence.getWifiName()) || TextUtils.isEmpty(teacherAttence.getWifiName())) {
+    private void saveAttence(final TeacherAttenceVO teacherAttenceVO) {
+        if(TextUtils.isEmpty(teacherAttenceVO.getWifiName()) || TextUtils.isEmpty(teacherAttenceVO.getWifiName())) {
             UIUtil.showToast(this, "暂未获取考勤信息,请后重试...");
             return;
         }
@@ -159,7 +159,7 @@ public class StudentPreAttenceActivity extends AppCompatActivity implements View
                             dialog.dismiss();
                             Gson gson = GsonBuilderUtil.create();
                             Intent intent = new Intent(StudentPreAttenceActivity.this, StudentMainActivity.class);
-                            intent.putExtra("student_teacherAttence",gson.toJson(teacherAttence));
+                            intent.putExtra("student_teacherAttence",gson.toJson(teacherAttenceVO));
                             startActivity(intent);
                         }
                     }
@@ -262,15 +262,23 @@ public class StudentPreAttenceActivity extends AppCompatActivity implements View
         NetWorkUtil.post(Constant.URL_LOGIN_STUDENT_CALL_ATTENCE,reqData, new NetWorkUtil.Worker() {
             @Override
             public void success(String result,Gson gson) {
-                final TeacherAttence teacherAttence = gson.fromJson(result,TeacherAttence.class);
-                if(teacherAttence==null || teacherAttence.getId()==null) {
+                final TeacherAttenceVO teacherAttenceVO = gson.fromJson(result,TeacherAttenceVO.class);
+                if(teacherAttenceVO==null || teacherAttenceVO.getId()==null) {
                     Toast.makeText(x.app(), "获取教师考勤明细失败", Toast.LENGTH_LONG).show();
                     return;
                 }
-                UIUtil.alert(StudentPreAttenceActivity.this, "请确认是否开始考勤", "教师:" + teacherAttence.getTeacherName() + ",热点名:" + teacherAttence.getWifiName(), new UIUtil.AlterCallBack() {
+                if(teacherAttenceVO.getState()==2){
+                    UIUtil.alert(StudentPreAttenceActivity.this, "无法打卡","当前考勤已经结束", new UIUtil.AlterCallBack() {
+                        @Override
+                        public void confirm() {
+                        }
+                    });
+                    return;
+                }
+                UIUtil.alert(StudentPreAttenceActivity.this, "请确认是否开始考勤", "教师:" + teacherAttenceVO.getTeacherName() + ",热点名:" + teacherAttenceVO.getWifiName(), new UIUtil.AlterCallBack() {
                     @Override
                     public void confirm() {
-                        saveAttence(teacherAttence);
+                        saveAttence(teacherAttenceVO);
                     }
                 });
             }

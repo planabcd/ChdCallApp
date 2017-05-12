@@ -47,6 +47,21 @@ public class AttenceWifiUtil {
 
 
     /**
+     * 扫描wifi
+     */
+    public boolean search(){
+        if(wifiAPManager.isWifiApEnabled()){
+            wifiAPManager.closeWifiAp();
+        }
+        if (!wifiWifiManager.isWifiActive()) {
+            //开启wifi
+            wifiWifiManager.openWifi();
+        }
+        return wifiWifiManager.startScan();
+
+    }
+
+    /**
      * 获取mac地址
      * @return
      */

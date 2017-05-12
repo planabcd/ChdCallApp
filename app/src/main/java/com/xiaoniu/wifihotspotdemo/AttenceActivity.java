@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -79,8 +80,53 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
+    /**
+     * 重写返回键方法
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            back();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
-
+    /**
+     * 返回键触发事件
+     */
+    private void back() {
+        if(!isEnd){
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("确认离开")
+                    .setContentText("当前考勤尚未结束,是否终止当前考勤")
+                    .setCancelText("取消")
+                    .setConfirmText("确认")
+                    .showCancelButton(true)
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.cancel();
+                            Intent intent = new Intent(AttenceActivity.this, TeacherPreAttenceActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(final SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismiss();
+                    cancelCall();
+                }
+            }).show();
+        }else{
+            Intent intent = new Intent(this, TeacherPreAttenceActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
 
     /**
@@ -98,7 +144,7 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
             }
 
         }else{
-            UIUtil.alert(AttenceActivity.this, "开启热点失败","请重试", new UIUtil.AlterCallBack() {
+            UIUtil.alert(AttenceActivity.this, "开启热点失败","请确认重试,或者手动开启热点\n热点名:"+mWifiName+"\n加密类型:无", new UIUtil.AlterCallBack() {
                 @Override
                 public void confirm() {
                     initOpenAp();
@@ -242,33 +288,7 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()){
             case tv_back:
-                if(!isEnd){
-                    new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("确认离开")
-                            .setContentText("当前考勤尚未结束,是否终止当前考勤")
-                            .setCancelText("取消")
-                            .setConfirmText("确认")
-                            .showCancelButton(true)
-                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sDialog) {
-                                    sDialog.cancel();
-                                    Intent intent = new Intent(AttenceActivity.this, TeacherPreAttenceActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }).setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(final SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismiss();
-                            cancelCall();
-                        }
-                    }).show();
-                }else{
-                    Intent intent = new Intent(this, TeacherPreAttenceActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+                back();
                 break;
             case R.id.tv_refresh:
                 UIUtil.showToastS(getApplicationContext(),"正在刷新,稍等一会");

@@ -159,6 +159,60 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/alert"
+        android:padding="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dip"
+        android:gravity="center"
+        android:text="如果未绑定mac地址请先打开wifi\n连接可用网络进行绑定\n更换手机后一定要重新绑定mac地址\n否则点名功能不可用"
+        android:textColor="#808080"
+        android:textSize="13.0sp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_bind_mac"
+        android:layout_marginTop="20dp"
+        android:layout_width="fill_parent"
+        android:layout_height="42dip"
+        android:clickable="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#ffffff"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dip"
+            android:layout_centerVertical="true"
+            android:id="@+id/tv_bind_mac"
+            android:text="绑定mac地址"
+            android:textSize="16sp"
+            android:textColor="#202020"
+
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dip"
+            android:scaleType="matrix"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/mm_submenu" />
+
+        <ImageView
+
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@drawable/line"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
+
+
     <Button
         android:id="@+id/btn_exit_login"
         android:layout_width="fill_parent"

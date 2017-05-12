@@ -21,6 +21,13 @@ public class WifiWifiManager {
     }
 
     /**
+     * 扫描wifi
+     */
+    public boolean startScan(){
+        return wifiManager.startScan();
+    }
+
+    /**
      * 判断wifi是否打开
      * @return
      */

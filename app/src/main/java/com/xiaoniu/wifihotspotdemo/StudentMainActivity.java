@@ -7,30 +7,28 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.xiaoniu.wifihotspotdemo.adapter.WifiListAdapter;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.Student;
-import com.xiaoniu.wifihotspotdemo.domain.StudentAttence;
-import com.xiaoniu.wifihotspotdemo.domain.TeacherAttence;
+import com.xiaoniu.wifihotspotdemo.domain.StudentAttenceVO;
+import com.xiaoniu.wifihotspotdemo.domain.TeacherAttenceVO;
+import com.xiaoniu.wifihotspotdemo.util.AttenceWifiUtil;
 import com.xiaoniu.wifihotspotdemo.util.GsonBuilderUtil;
 import com.xiaoniu.wifihotspotdemo.util.NetWorkUtil;
 import com.xiaoniu.wifihotspotdemo.util.PrefUtils;
 import com.xiaoniu.wifihotspotdemo.util.UIUtil;
-
-import org.xutils.x;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,19 +41,20 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
     private TextView mTextState;
     private ListView mLvWifiinfo;
 
-    private WifiManager wifiManager;
     private WifiListAdapter wifiListAdapter;
-    private WifiConfiguration config;
-    private int wcgID;
     private boolean mFirstCall = true;
-    private TeacherAttence teacherAttence;
+    private TeacherAttenceVO teacherAttence;
 
-    private static final int WIFICIPHER_NOPASS = 1;
-    private static final int WIFICIPHER_WEP = 2;
-    private static final int WIFICIPHER_WPA = 3;
     private String wifiName;
-    private String wifiPwd;
     private Student mStudent;
+    private String macAddress;
+    private AttenceWifiUtil mAttenceWifiUtil;
+    private android.net.wifi.WifiManager wifiManager ;
+    //如果连接教师热点成功,isSuccess = true
+    private volatile boolean isSuccess = false;
+    private volatile boolean isUpload = false;
+
+    private TextView mTextWifiName;
 
 
 
@@ -63,10 +62,13 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main);
-        wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        mAttenceWifiUtil= AttenceWifiUtil.getInstance(this);
+        wifiManager=(WifiManager) this.getSystemService(Context.WIFI_SERVICE);
         initData();
         initView();
         initBroadcastReceiver();
+        //开始扫描wifi
+        mAttenceWifiUtil.search();
     }
 
     private void initData() {
@@ -87,9 +89,9 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
             UIUtil.showToast(this,"暂未获取考勤信息,请稍后重试...");
             return;
         }
-        teacherAttence = gson.fromJson(json2, TeacherAttence.class);
+        teacherAttence = gson.fromJson(json2, TeacherAttenceVO.class);
+        macAddress = teacherAttence.getMacAddress();
         wifiName = teacherAttence.getWifiName();
-        wifiPwd = teacherAttence.getWifiPwd();
     }
 
     private void initView() {
@@ -97,6 +99,8 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
         mTvRefresh = (TextView) findViewById(R.id.tv_refresh);
         mTextState = (TextView) findViewById(R.id.text_state);
         mLvWifiinfo = (ListView) findViewById(R.id.lv_wifiinfo);
+        mTextWifiName = (TextView) findViewById(R.id.text_wifi_name);
+        mTextWifiName.setText("教师热点:"+wifiName);
 
         mTvRefresh.setOnClickListener(this);
         mTvBack.setOnClickListener(this);
@@ -106,20 +110,29 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
         mLvWifiinfo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final ScanResult scanResult = wifiListAdapter.getItem(position);
-                String ssid = scanResult.SSID;
-                if(!TextUtils.isEmpty(ssid) && ssid.equals(wifiName)){
-                    UIUtil.showToast(StudentMainActivity.this,"该热点为教师热点");
+            final ScanResult scanResult = wifiListAdapter.getItem(position);
+            String ssid = scanResult.SSID;
+            if(!TextUtils.isEmpty(ssid) && ssid.equals(wifiName)){
+                if(!isSuccess){
+                    UIUtil.alert(StudentMainActivity.this, "是否连接进行考勤","该热点为教师热点", new UIUtil.AlterCallBack() {
+                        @Override
+                        public void confirm() {
+                            mAttenceWifiUtil.connectNoPwdAP(wifiName);
+                        }
+                    });
+                    return;
                 }
+                if(!isUpload){
+                    UIUtil.okTips(StudentMainActivity.this,"请上传考勤信息","如果未上传考勤信息,考勤结束后视为缺勤");
+                    uploadCall();
+                    return;
+                }
+                UIUtil.okTips(StudentMainActivity.this,"考勤成功","请勿重复尝试");
+            }
             }
         });
     }
 
-    private void connect(WifiConfiguration config) {
-        mTextState.setText("连接中...");
-        wcgID = wifiManager.addNetwork(config);
-        wifiManager.enableNetwork(wcgID, true);
-    }
 
     private void initBroadcastReceiver() {
         IntentFilter intentFilter = new IntentFilter();
@@ -131,6 +144,47 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
     }
 
 
+    /**
+     * 重写返回键方法
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            back();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void back(){
+        if(isUpload){
+            finish();
+            return;
+        }
+        if(!isSuccess){
+            UIUtil.alert(this, "是否退出","还未连接教师热点进行考勤,如果退出,考勤结束后视为缺勤", new UIUtil.AlterCallBack() {
+                @Override
+                public void confirm() {
+                    finish();
+                }
+            });
+            return;
+        }
+        if(!isUpload){
+            UIUtil.alert(this, "是否退出","还未上传考勤信息,如果退出,考勤结束后视为缺勤", new UIUtil.AlterCallBack() {
+                @Override
+                public void confirm() {
+                    finish();
+                }
+            });
+            return;
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -138,12 +192,7 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
                 search();
                 break;
             case R.id.tv_back:
-                UIUtil.alert(this, "确认退出?", "还未上传考勤信息", new UIUtil.AlterCallBack() {
-                    @Override
-                    public void confirm() {
-                        finish();
-                    }
-                });
+                back();
                 break;
         }
     }
@@ -153,11 +202,18 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
      * 搜索wifi热点
      */
     private void search() {
-        if (!wifiManager.isWifiEnabled()) {
-            //开启wifi
-            wifiManager.setWifiEnabled(true);
+        final boolean search = mAttenceWifiUtil.search();
+        if(search){
+            UIUtil.okTips(this,"开启wifi成功","正在扫描可用热点");
+            return;
         }
-        wifiManager.startScan();
+        UIUtil.alert(this, "开启wifi失败","请重试或者手动开启wifi", new UIUtil.AlterCallBack() {
+            @Override
+            public void confirm() {
+                search();
+            }
+        });
+
     }
 
     @Override
@@ -179,10 +235,9 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
                 if(scanResults!=null && scanResults.size()!=0){
                     for(ScanResult s : scanResults){
                         if(wifiName.equals(s.SSID) && mFirstCall){
-                            //找到教师开启的热点
-                            mFirstCall = false;
                             UIUtil.showToast(StudentMainActivity.this,"找到教师热点,正在连接");
-                            connectTeacher(s);
+                            mAttenceWifiUtil.connectNoPwdAP(wifiName);
+                            return;
                         }
                     }
                 }
@@ -191,11 +246,13 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
                         WifiManager.EXTRA_WIFI_STATE, 0);
                 switch (wifiState) {
                     case WifiManager.WIFI_STATE_ENABLED:
+                        UIUtil.showToastS(StudentMainActivity.this,"wifi已打开");
                         //获取到wifi开启的广播时，开始扫描
-                        wifiManager.startScan();
+//                        wifiManager.startScan();
                         break;
                     case WifiManager.WIFI_STATE_DISABLED:
                         //wifi关闭发出的广播
+                        UIUtil.showToastS(StudentMainActivity.this,"wifi已关闭");
                         break;
                 }
             } else if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
@@ -207,31 +264,30 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
                     final WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                     mTextState.setText("已连接到网络:" + wifiInfo.getSSID());
                     if(wifiInfo.getSSID().trim().replaceAll("\"","").equals(wifiName)){
-                        int networkId = wifiInfo.getNetworkId();
-                        /*boolean hiddenSSID = wifiInfo.getHiddenSSID();
-                        UIUtil.showToastS(StudentMainActivity.this,"hiddenSSID:"+hiddenSSID);
-                        if(networkId!=1){
-                            UIUtil.alert(StudentMainActivity.this, "请注意","你连接了假冒伪劣热点", new UIUtil.AlterCallBack() {
-                                @Override
-                                public void confirm() {
-                                    //TODO
-                                }
-                            });
-                            return;
-                        }*/
-                        //关闭wifi
-                        /*if (wifiManager.isWifiEnabled()) {
-                            //如果wifi处于打开状态，则关闭wifi,
-                            wifiManager.setWifiEnabled(false);
-                        }*/
-                        //上传考勤信息
-                        UIUtil.okNoCancel(StudentMainActivity.this, "考勤成功", "请确认是否上传考勤信息\n如果未上传会被视为缺勤", new UIUtil.AlterCallBack() {
-                            @Override
-                            public void confirm() {
-                                uploadCall();
+                        synchronized (StudentMainActivity.this){
+                            if(isSuccess || isUpload){
+                                return;
                             }
-                        });
+                            if(mFirstCall){
+                                mFirstCall = false;
+                            }
+                            String bssid = wifiInfo.getBSSID();
+//                            UIUtil.showToastS(StudentMainActivity.this,"教师端mac地址:"+bssid);
+                            if(!TextUtils.isEmpty(bssid) && bssid.equals(macAddress)){
+                                isSuccess = true;
+                                UIUtil.okNoCancel(StudentMainActivity.this, "连接教师热点成功","请上传考勤信息,如果不上传,考勤结束后视为缺勤", new UIUtil.AlterCallBack() {
+                                    @Override
+                                    public void confirm() {
+                                        if(!isUpload){
+                                            uploadCall();
+                                        }else{
+                                            UIUtil.okTips(StudentMainActivity.this,"已经上传过考勤信息","请勿重试");
+                                        }
 
+                                    }
+                                });
+                            }
+                        }
                     }
                 } else {
                     NetworkInfo.DetailedState state = info.getDetailedState();
@@ -254,23 +310,43 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
      * 上传考勤信息
      */
     private void uploadCall() {
-        Map<String,String> reqData = new HashMap<String,String>();
+        final Map<String,String> reqData = new HashMap<String,String>();
         reqData.put("teacherAttenceId",String.valueOf(teacherAttence.getId()));
         reqData.put("studentId",String.valueOf(mStudent.getStuId()));
-        NetWorkUtil.post(Constant.URL_LOGIN_STUDENT_DOCALL_ATTENCE, reqData, new NetWorkUtil.Worker() {
+        NetWorkUtil.postYN(Constant.URL_LOGIN_STUDENT_DOCALL_ATTENCE, reqData, new NetWorkUtil.WorkerYN() {
             @Override
             public void success(String result, Gson gson) {
-                StudentAttence studentAttence = gson.fromJson(result, StudentAttence.class);
-                if(studentAttence==null) {
-                    Toast.makeText(x.app(), "上传考勤信息错误,请联网后重试", Toast.LENGTH_LONG).show();
+                if(TextUtils.isEmpty(result) || result.length()<3){
+                    UIUtil.alert(StudentMainActivity.this, "考勤信息上传失败","未获取到考勤信息", new UIUtil.AlterCallBack() {
+                        @Override
+                        public void confirm() {
+                        }
+                    });
                     return;
                 }
+                StudentAttenceVO studentAttenceVO = gson.fromJson(result, StudentAttenceVO.class);
+                Long state = studentAttenceVO.getState();
+                if(state==3){
+                    UIUtil.alert(StudentMainActivity.this, "考勤失败","当前考勤已经结束", new UIUtil.AlterCallBack() {
+                        @Override
+                        public void confirm() {
+                        }
+                    });
+                    return;
+                }
+
                 String name = mStudent.getName();
                 Long id = mStudent.getId();
-                String msg = "学号:"+id+"\n"+"姓名:"+name;
-                UIUtil.okNoCancel(StudentMainActivity.this, "考勤成功,确认退出", msg, new UIUtil.AlterCallBack() {
+                String courseName = studentAttenceVO.getCourseName();
+                String remark = studentAttenceVO.getRemark();
+                if(TextUtils.isEmpty(remark)){
+                    remark = "无";
+                }
+                String msg = "课程:"+courseName+"\n学号:"+id+"\n"+"姓名:"+name+"\n备注:"+remark;
+                UIUtil.ok(StudentMainActivity.this, "考勤成功,确认退出", msg, new UIUtil.AlterCallBack() {
                     @Override
                     public void confirm() {
+                        isUpload = true;
                         Intent intent = new Intent(StudentMainActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
@@ -281,79 +357,6 @@ public class StudentMainActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
-
-    /**
-     * 连接教师wifi
-     * @param s
-     */
-    public void connectTeacher(ScanResult s){
-        wifiManager.disconnect();
-        String capabilities = s.capabilities;
-        int type = WIFICIPHER_WPA;
-        if (!TextUtils.isEmpty(capabilities)) {
-            if (capabilities.contains("WPA") || capabilities.contains("wpa")) {
-                type = WIFICIPHER_WPA;
-            } else if (capabilities.contains("WEP") || capabilities.contains("wep")) {
-                type = WIFICIPHER_WEP;
-            } else {
-                type = WIFICIPHER_NOPASS;
-            }
-        }
-        config = createWifiInfo(wifiName, wifiPwd, type);
-        connect(config);
-    }
-
-
-    public WifiConfiguration createWifiInfo(String SSID, String password,
-                                            int type) {
-        WifiConfiguration config = new WifiConfiguration();
-        config.allowedAuthAlgorithms.clear();
-        config.allowedGroupCiphers.clear();
-        config.allowedKeyManagement.clear();
-        config.allowedPairwiseCiphers.clear();
-        config.allowedProtocols.clear();
-        config.SSID = "\"" + SSID + "\"";
-        if (type == WIFICIPHER_NOPASS) {
-            config.wepKeys[0] = "\"" + "\"";
-            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-            config.wepTxKeyIndex = 0;
-        } else if (type == WIFICIPHER_WEP) {
-            config.preSharedKey = "\"" + password + "\"";
-            config.hiddenSSID = true;
-            config.allowedAuthAlgorithms
-                    .set(WifiConfiguration.AuthAlgorithm.SHARED);
-            config.allowedGroupCiphers
-                    .set(WifiConfiguration.GroupCipher.CCMP);
-            config.allowedGroupCiphers
-                    .set(WifiConfiguration.GroupCipher.TKIP);
-            config.allowedGroupCiphers
-                    .set(WifiConfiguration.GroupCipher.WEP40);
-            config.allowedGroupCiphers
-                    .set(WifiConfiguration.GroupCipher.WEP104);
-            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-            config.wepTxKeyIndex = 0;
-        } else if (type == WIFICIPHER_WPA) {
-            config.preSharedKey = "\"" + password + "\"";
-            config.hiddenSSID = true;
-            config.allowedAuthAlgorithms
-                    .set(WifiConfiguration.AuthAlgorithm.OPEN);
-            config.allowedGroupCiphers
-                    .set(WifiConfiguration.GroupCipher.TKIP);
-            config.allowedKeyManagement
-                    .set(WifiConfiguration.KeyMgmt.WPA_PSK);
-            config.allowedPairwiseCiphers
-                    .set(WifiConfiguration.PairwiseCipher.TKIP);
-            // config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
-            config.allowedGroupCiphers
-                    .set(WifiConfiguration.GroupCipher.CCMP);
-            config.allowedPairwiseCiphers
-                    .set(WifiConfiguration.PairwiseCipher.CCMP);
-            config.status = WifiConfiguration.Status.ENABLED;
-        } else {
-            return null;
-        }
-        return config;
-    }
 
 
 
