@@ -72,10 +72,18 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attence);
+        checkGPS();
         initView();
         initTime();
         initWifi();
         queryStudentAttence();
+
+    }
+
+    /**
+     * 检查是否开启GPS
+     */
+    private void checkGPS() {
 
     }
 
@@ -393,7 +401,12 @@ public class AttenceActivity extends AppCompatActivity implements View.OnClickLi
                 mTvAttenceState.setText("待打卡");
             }
             if(state==2){
-                mTvAttenceState.setText("已出勤");
+                String netRemark = studentAttence.getRemark();
+                if(TextUtils.isEmpty(netRemark)){
+                    mTvAttenceState.setText("已出勤");
+                }else{
+                    mTvAttenceState.setText("已审批");
+                }
             }
             if(state==3){
                 if(!TextUtils.isEmpty(remark)){

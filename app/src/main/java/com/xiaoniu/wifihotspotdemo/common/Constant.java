@@ -7,8 +7,9 @@ public class Constant {
 	public static String URL_LOGIN_STUDENT = URL_SERVER+"/rest/student/login";
 	public static String URL_LOGIN_TEACHER = URL_SERVER+"/rest/teacher/login";
 
-	public static String URL_TEACHER_BIND_MACADDRESS = URL_SERVER+"/rest/teacher/bind";
+	public static String URL_TEACHER_GET_MACADDRESS = URL_SERVER+"/rest/teacher/getMac";
 
+	public static String URL_TEACHER_BIND_MACADDRESS = URL_SERVER+"/rest/teacher/bind";
 
 	public static String URL_CLASS_QUERY_BY_COURSE_ID = URL_SERVER+"/rest/classInfo/queryByCourseId";
 

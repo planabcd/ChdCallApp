@@ -8,10 +8,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
+import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.Teacher;
 import com.xiaoniu.wifihotspotdemo.util.GsonBuilderUtil;
+import com.xiaoniu.wifihotspotdemo.util.NetWorkUtil;
 import com.xiaoniu.wifihotspotdemo.util.PrefUtils;
 import com.xiaoniu.wifihotspotdemo.util.UIUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TeacherHomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -98,13 +103,27 @@ public class TeacherHomeActivity extends AppCompatActivity implements View.OnCli
      * 教师进入考勤配置界面
      */
     private void startCall() {
-        String macAddress = mTeacher.getMacAddress();
+        final String macAddress = mTeacher.getMacAddress();
         if(TextUtils.isEmpty(macAddress)){
-            UIUtil.alert(TeacherHomeActivity.this, "请先绑定mac地址","如果不绑定mac地址无法进行考勤", new UIUtil.AlterCallBack() {
+            Map<String,String> params = new HashMap<String,String>();
+            params.put("teacherId",mTeacher.getTeacherId()+"");
+            NetWorkUtil.post(Constant.URL_TEACHER_GET_MACADDRESS, params, new NetWorkUtil.Worker() {
                 @Override
-                public void confirm() {
-                    Intent it = new Intent(TeacherHomeActivity.this,TeacherSettingActivity.class);
-                    startActivity(it);
+                public void success(String result, Gson gson) {
+                    Teacher teacher = gson.fromJson(result, Teacher.class);
+                    String netMacAddress = teacher.getMacAddress();
+                    if(!TextUtils.isEmpty(netMacAddress)){
+                        Intent it = new Intent(TeacherHomeActivity.this,TeacherSettingActivity.class);
+                        startActivity(it);
+                    }else{
+                        UIUtil.alert(TeacherHomeActivity.this, "请先绑定mac地址","如果不绑定mac地址无法进行考勤", new UIUtil.AlterCallBack() {
+                            @Override
+                            public void confirm() {
+                                Intent it = new Intent(TeacherHomeActivity.this,TeacherSettingActivity.class);
+                                startActivity(it);
+                            }
+                        });
+                    }
                 }
             });
             return;

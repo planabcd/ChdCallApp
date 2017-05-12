@@ -1,14 +1,18 @@
 package com.xiaoniu.wifihotspotdemo;
 
 import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.xiaoniu.wifihotspotdemo.util.MacUtil;
 import com.xiaoniu.wifihotspotdemo.util.UIUtil;
@@ -37,6 +41,8 @@ public class TestWifiActivity extends AppCompatActivity{
     }
 
 
+
+
     /**
      * 测试wifi
      */
@@ -49,7 +55,48 @@ public class TestWifiActivity extends AppCompatActivity{
         wifiWifiManager = new WifiWifiManager(this);
     }
 
+    /**
+     * 检测是否开启gps
+     * @param v
+     */
+    public void getIsGps(View v){
+        UIUtil.showToastS(this,"get isaccess gps click");
+        LocationManager locationManager = (LocationManager) this
+                .getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(this, "GPS模块正常", Toast.LENGTH_SHORT).show();
+            //GPS正常开启，可以写入需要开启GPS才能执行的方法
+            //也可在onActivityResult()方法写
+        } else {
+            Toast.makeText(this, "请开启GPS！", Toast.LENGTH_SHORT).show();
+            //调转GPS设置界面
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            //此为设置完成后返回到获取界面
+            startActivityForResult(intent, 1);
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            // ............自己需要执行的方法
+
+            LocationManager locationManager = (LocationManager) this
+                    .getSystemService(Context.LOCATION_SERVICE);
+            if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+                Toast.makeText(this, "GPS模块正常", Toast.LENGTH_SHORT).show();
+                //GPS正常开启，可以写入需要开启GPS才能执行的方法
+                //也可在onActivityResult()方法写
+            } else {
+                Toast.makeText(this, "请开启GPS！", Toast.LENGTH_SHORT).show();
+                //调转GPS设置界面
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                //此为设置完成后返回到获取界面
+                startActivityForResult(intent, 1);
+            }
+        }
+    }
 
     /**
      * 创建热点

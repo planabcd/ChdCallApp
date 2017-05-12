@@ -141,6 +141,8 @@ public class StudentHistoryActivity extends AppCompatActivity implements View.On
     class MyAdapter extends BaseAdapter {
 
         private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        private SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
+
         @Override
         public int getCount() {
             return studentAttenceVOs.size();
@@ -172,7 +174,12 @@ public class StudentHistoryActivity extends AppCompatActivity implements View.On
                 mTvAttenceState.setText("待打卡");
             }
             if(state==2){
-                mTvAttenceState.setText("已出勤");
+                String netRemark = studentAttenceVO.getRemark();
+                if(TextUtils.isEmpty(netRemark)){
+                    mTvAttenceState.setText("已出勤");
+                }else{
+                    mTvAttenceState.setText("已审批");
+                }
             }
             if(state==3){
                 if(!TextUtils.isEmpty(remark)){
@@ -187,11 +194,16 @@ public class StudentHistoryActivity extends AppCompatActivity implements View.On
             //设置课程
             mTvCourse.setText(studentAttenceVO.getCourseName());
             try {
-                String format = sdf.format(studentAttenceVO.getUpdated());
-                mTvAttenceDatetime.setText("考勤时间:"+format);
+                String format = sdf.format(studentAttenceVO.getCreated());
+                String createTime = sdfTime.format(studentAttenceVO.getCreated());
+                String updateTime = sdfTime.format(studentAttenceVO.getUpdated());
+                if(createTime.equals(updateTime)){
+                    mTvAttenceDatetime.setText(format+"-至今");
+                }else{
+                    mTvAttenceDatetime.setText(format+"-"+updateTime);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
-
                 UIUtil.showToast(getApplicationContext(),"考勤日期获取失败");
             }
             view.setOnClickListener(new View.OnClickListener() {

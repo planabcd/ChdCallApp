@@ -72,7 +72,7 @@
                     android:singleLine="true"
                     android:layout_alignParentEnd="true"
                     android:textColor="#3e3e3e"
-                    android:text="打卡时间:2017-05-01 12:00:00-" />
+                    android:text="2017-05-01 12:00:00-12:00:00" />
             </RelativeLayout>
 
 

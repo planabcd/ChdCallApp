@@ -52,4 +52,11 @@
         android:text="获取MAC地址,通过wifi"
         android:onClick="getMacWifi"
         />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="检测是否开启gps"
+        android:onClick="getIsGps"
+        />
+
 </LinearLayout>

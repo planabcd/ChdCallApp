@@ -1,8 +1,11 @@
 package com.xiaoniu.wifihotspotdemo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -45,7 +48,7 @@ public class StudentPreAttenceActivity extends AppCompatActivity implements View
 
     private RelativeLayout mRlMyLocaltion;
     private TextView mTvMyLocaltionValue;
-
+    private LocationManager mLocationManager;
 
 
 
@@ -55,6 +58,7 @@ public class StudentPreAttenceActivity extends AppCompatActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_pre_attence);
+        mLocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         initData();
         initView();
     }
@@ -118,23 +122,42 @@ public class StudentPreAttenceActivity extends AppCompatActivity implements View
      * 获取我的位置
      */
     private void mylocation() {
-        Intent intent = new Intent(this, LocationActivity.class);
-        startActivityForResult(intent,0);
+        if(!mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            //如果GPS未打开
+            UIUtil.alert(this, "请开启GPS","否则无法进行准确定位", new UIUtil.AlterCallBack() {
+                @Override
+                public void confirm() {
+                    //调转GPS设置界面
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    //此为设置完成后返回到获取界面
+                    startActivityForResult(intent, 1);
+                }
+            });
+        }else{
+            Intent intent = new Intent(this, LocationActivity.class);
+            startActivityForResult(intent,0);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data==null){
-            mTvMyLocaltionValue.setText("暂未获取到位置信息");
-            return;
+        if(requestCode==0){
+            if(data==null){
+                mTvMyLocaltionValue.setText("暂未获取到位置信息");
+                return;
+            }
+            String locationInfo = data.getStringExtra("locationInfo");
+            Gson gson = GsonBuilderUtil.create();
+            LocationInfo location = gson.fromJson(locationInfo, LocationInfo.class);
+            String curPOILocAddress = location.getCurPOILocAddress();
+            mTvMyLocaltionValue.setText(curPOILocAddress);
+            mTvMyLocaltionValue.setTextColor(0xff202020);
         }
-        String locationInfo = data.getStringExtra("locationInfo");
-        Gson gson = GsonBuilderUtil.create();
-        LocationInfo location = gson.fromJson(locationInfo, LocationInfo.class);
-        String curPOILocAddress = location.getCurPOILocAddress();
-        mTvMyLocaltionValue.setText(curPOILocAddress);
-        mTvMyLocaltionValue.setTextColor(0xff202020);
+        if(requestCode==1){
+            mylocation();
+        }
+
     }
 
 
@@ -232,8 +255,9 @@ public class StudentPreAttenceActivity extends AppCompatActivity implements View
                                 getAttence();
                             }
                         });
+                        return;
                     }
-
+                    getAttence();
                 }else if(state==2){
                     UIUtil.okNoCancel(StudentPreAttenceActivity.this, "请勿重复打卡","已经打过卡了\n课程编号-名称:"+mTvCourseName.getText().toString(), new UIUtil.AlterCallBack() {
                         @Override

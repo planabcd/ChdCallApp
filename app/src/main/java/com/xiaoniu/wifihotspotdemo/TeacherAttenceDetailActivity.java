@@ -225,7 +225,12 @@ public class TeacherAttenceDetailActivity extends AppCompatActivity implements V
                 mTvAttenceState.setText("待打卡");
             }
             if(state==2){
-                mTvAttenceState.setText("已出勤");
+                String netRemark = studentAttence.getRemark();
+                if(TextUtils.isEmpty(netRemark)){
+                    mTvAttenceState.setText("已出勤");
+                }else{
+                    mTvAttenceState.setText("已审批");
+                }
             }
             if(state==3){
                 if(!TextUtils.isEmpty(remark)){
@@ -235,7 +240,7 @@ public class TeacherAttenceDetailActivity extends AppCompatActivity implements V
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            UIUtil.alert(TeacherAttenceDetailActivity.this, "请确认审批","如果确认,该学生的考勤状态将变为已打卡:\n申请理由:"+remark, new UIUtil.AlterCallBack() {
+                            UIUtil.alert(TeacherAttenceDetailActivity.this, "请确认审批","如果确认,该学生的考勤状态将变为已打卡\n申请理由:"+remark, new UIUtil.AlterCallBack() {
                                 @Override
                                 public void confirm() {
                                     Map<String,String> params = new HashMap<String,String>();
