@@ -2,12 +2,12 @@ package com.xiaoniu.wifihotspotdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.Teacher;
 import com.xiaoniu.wifihotspotdemo.util.GsonBuilderUtil;
@@ -18,7 +18,7 @@ import com.xiaoniu.wifihotspotdemo.util.UIUtil;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TeacherHomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class TeacherHomeActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout mLlStartCall;
     private LinearLayout mLlKq;

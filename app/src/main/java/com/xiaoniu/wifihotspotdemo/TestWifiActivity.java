@@ -8,19 +8,19 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.util.MacUtil;
 import com.xiaoniu.wifihotspotdemo.util.UIUtil;
 import com.xiaoniu.wifihotspotdemo.util.WifiAPManager;
 import com.xiaoniu.wifihotspotdemo.util.WifiWifiManager;
 
 
-public class TestWifiActivity extends AppCompatActivity{
+public class TestWifiActivity extends BaseActivity {
 
     private WifiManager wifiManager;
     private WifiAPManager wifiAPManager;

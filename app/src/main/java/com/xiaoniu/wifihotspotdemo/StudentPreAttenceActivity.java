@@ -6,7 +6,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -18,6 +17,7 @@ import com.bigkoo.alertview.OnItemClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mingle.widget.ShapeLoadingDialog;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.Course;
 import com.xiaoniu.wifihotspotdemo.domain.LocationInfo;
@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class StudentPreAttenceActivity extends AppCompatActivity implements View.OnClickListener {
+public class StudentPreAttenceActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView mTvBack;
     private TextView mTvConfirm;

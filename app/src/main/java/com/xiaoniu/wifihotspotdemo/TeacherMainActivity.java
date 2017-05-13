@@ -4,11 +4,12 @@ import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,7 +18,7 @@ import java.lang.reflect.Method;
  * Created by think on 2017/4/5 20:34.
  */
 
-public class TeacherMainActivity extends AppCompatActivity implements View.OnClickListener {
+public class TeacherMainActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * 热点名称

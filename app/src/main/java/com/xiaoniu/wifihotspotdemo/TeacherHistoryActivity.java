@@ -3,7 +3,6 @@ package com.xiaoniu.wifihotspotdemo;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.Teacher;
 import com.xiaoniu.wifihotspotdemo.domain.TeacherAttenceVO;
@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class TeacherHistoryActivity extends AppCompatActivity implements View.OnClickListener {
+public class TeacherHistoryActivity extends BaseActivity implements View.OnClickListener {
     private TextView mTvBack;
     private ListView mLvTeacherHistory;
     private List<TeacherAttenceVO> teacherAttenceVOs;

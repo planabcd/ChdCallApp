@@ -3,7 +3,6 @@ package com.xiaoniu.wifihotspotdemo;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.StudentAttence;
 import com.xiaoniu.wifihotspotdemo.domain.Teacher;
@@ -37,7 +37,7 @@ import java.util.Random;
 
 
 
-public class TeacherAttenceDetailActivity extends AppCompatActivity implements View.OnClickListener{
+public class TeacherAttenceDetailActivity extends BaseActivity implements View.OnClickListener{
 
     private TextView mTvBack;
     private TextView mTvRefresh;

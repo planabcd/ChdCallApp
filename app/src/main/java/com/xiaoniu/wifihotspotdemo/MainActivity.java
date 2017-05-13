@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoniu.wifihotspotdemo.adapter.WifiListAdapter;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.thread.ConnectThread;
 import com.xiaoniu.wifihotspotdemo.thread.ListenerThread;
 
@@ -38,7 +38,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private ListView listView;
     private Button btn_create_hostspot;

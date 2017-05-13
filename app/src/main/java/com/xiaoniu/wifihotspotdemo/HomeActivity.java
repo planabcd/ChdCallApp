@@ -2,14 +2,14 @@ package com.xiaoniu.wifihotspotdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.mingle.widget.ShapeLoadingDialog;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout mLlStartCall;
     private LinearLayout mLlKq;

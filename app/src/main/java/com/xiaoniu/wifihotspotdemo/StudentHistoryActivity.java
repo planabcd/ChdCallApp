@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +22,7 @@ import com.bigkoo.alertview.OnDismissListener;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.Student;
 import com.xiaoniu.wifihotspotdemo.domain.StudentAttenceVO;
@@ -43,7 +43,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class StudentHistoryActivity extends AppCompatActivity implements View.OnClickListener,OnItemClickListener, OnDismissListener {
+public class StudentHistoryActivity extends BaseActivity implements View.OnClickListener,OnItemClickListener, OnDismissListener {
     private TextView mTvBack;
     private ListView mLvStudentHistory;
     private List<StudentAttenceVO> studentAttenceVOs;

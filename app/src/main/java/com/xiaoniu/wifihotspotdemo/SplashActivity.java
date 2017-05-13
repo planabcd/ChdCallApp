@@ -3,11 +3,12 @@ package com.xiaoniu.wifihotspotdemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class SplashActivity extends AppCompatActivity implements View.OnClickListener {
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
+
+public class SplashActivity extends BaseActivity implements View.OnClickListener {
 
     private LinearLayout mLlStartCall;
     private LinearLayout mLlKq;

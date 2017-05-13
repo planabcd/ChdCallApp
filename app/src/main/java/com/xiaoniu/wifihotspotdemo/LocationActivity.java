@@ -2,7 +2,6 @@ package com.xiaoniu.wifihotspotdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -24,13 +23,14 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.domain.LocationInfo;
 import com.xiaoniu.wifihotspotdemo.util.GsonBuilderUtil;
 import com.xiaoniu.wifihotspotdemo.util.UIUtil;
 
 import java.util.List;
 
-public class LocationActivity extends AppCompatActivity implements View.OnClickListener {
+public class LocationActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView mTvBack;
     private TextView mTvRefresh;

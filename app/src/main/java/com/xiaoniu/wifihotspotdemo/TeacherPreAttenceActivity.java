@@ -2,7 +2,6 @@ package com.xiaoniu.wifihotspotdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +13,7 @@ import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.ClassInfo;
 import com.xiaoniu.wifihotspotdemo.domain.Course;
@@ -40,7 +40,7 @@ import java.util.Map;
 import static com.xiaoniu.wifihotspotdemo.R.id.tv_back;
 
 
-public class TeacherPreAttenceActivity extends FragmentActivity implements View.OnClickListener {
+public class TeacherPreAttenceActivity extends BaseActivity implements View.OnClickListener {
     private TextView mEtClassId;
     private TextView mEtCourseName;
     private TextView mEtStartTime;

@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.Student;
 import com.xiaoniu.wifihotspotdemo.util.GsonBuilderUtil;
@@ -24,7 +24,7 @@ import java.util.Map;
 
 
 
-public class StudentInfoActivity extends AppCompatActivity implements View.OnClickListener {
+public class StudentInfoActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView mTvBack;
     private TextView mTvName;

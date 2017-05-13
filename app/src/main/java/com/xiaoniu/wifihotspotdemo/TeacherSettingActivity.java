@@ -2,7 +2,6 @@ package com.xiaoniu.wifihotspotdemo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +9,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.xiaoniu.wifihotspotdemo.common.ActivityCollector;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.Teacher;
 import com.xiaoniu.wifihotspotdemo.util.AttenceWifiUtil;
@@ -26,7 +27,7 @@ import java.util.Map;
  * Created by think on 2017/5/9 15:13
  */
 
-public class TeacherSettingActivity extends AppCompatActivity implements View.OnClickListener {
+public class TeacherSettingActivity extends BaseActivity implements View.OnClickListener {
     private TextView mTvBack;
     private RelativeLayout mRlSpecilCall;
     private RelativeLayout mRlAbout;
@@ -166,6 +167,7 @@ public class TeacherSettingActivity extends AppCompatActivity implements View.On
         UIUtil.alert(this, "是否退出", "请确认", new UIUtil.AlterCallBack() {
             @Override
             public void confirm() {
+                ActivityCollector.finishAll();
                 Intent intent = new Intent(TeacherSettingActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();

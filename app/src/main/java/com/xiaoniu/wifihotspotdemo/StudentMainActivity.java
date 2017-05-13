@@ -10,7 +10,6 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.xiaoniu.wifihotspotdemo.adapter.WifiListAdapter;
+import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.common.Constant;
 import com.xiaoniu.wifihotspotdemo.domain.Student;
 import com.xiaoniu.wifihotspotdemo.domain.StudentAttenceVO;
@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StudentMainActivity extends AppCompatActivity implements View.OnClickListener {
+public class StudentMainActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView mTvBack;
     private TextView mTvRefresh;
