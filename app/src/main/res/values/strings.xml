@@ -13,4 +13,5 @@
     <string name="phone_register">手机快速注册</string>
     <string name="weixin_login">微信登录</string>
     <string name="other_login">其他方式登录</string>
+    <string name="app_id">58e1fd3b</string>
 </resources>

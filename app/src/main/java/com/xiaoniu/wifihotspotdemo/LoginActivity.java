@@ -94,7 +94,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * 忘记密码
      */
     private void fogotPwd() {
-
+        Intent it = new Intent(this,VoiceRegisterActivity.class);
+        startActivity(it);
     }
 
     private void login() {
