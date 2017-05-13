@@ -1,5 +1,6 @@
 package com.xiaoniu.wifihotspotdemo;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechListener;
 import com.iflytek.cloud.VerifierListener;
 import com.iflytek.cloud.VerifierResult;
+import com.iflytek.cloud.ui.RecognizerDialog;
 import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.util.UIUtil;
 
@@ -155,6 +157,49 @@ public class VoiceRegisterActivity extends BaseActivity{
     public void que(View v) {
         performModelOperation("que", mModelOperationListener);
     }
+
+    /**
+     * 初始化监听器。
+     */
+    private InitListener mInitListener = new InitListener() {
+
+        @Override
+        public void onInit(int code) {
+            Log.d("TAG", "SpeechRecognizer init() code = " + code);
+            if (code != ErrorCode.SUCCESS) {
+                showTip("初始化失败，错误码：" + code);
+            }
+        }
+    };
+
+    /**
+     * ui1
+     * @param v
+     */
+    public void ui1(View v) {
+
+        //1.创建RecognizerDialog对象
+        RecognizerDialog mDialog = new RecognizerDialog(this, mInitListener);
+        //2.设置accent、language等参数
+        mDialog.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
+        mDialog.setParameter(SpeechConstant.ACCENT, "mandarin");
+        //若要将UI控件用于语义理解，必须添加以下参数设置，设置之后onResult回调返回将是语义理解
+        //结果
+        // mDialog.setParameter("asr_sch", "1");
+        // mDialog.setParameter("nlp_version", "2.0");
+        //3.设置回调接口
+        //4.显示dialog，接收语音输入
+        mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                //TODO
+            }
+        });
+        mDialog.show();
+    }
+
+
+
 
     /**
      * 验证模型
