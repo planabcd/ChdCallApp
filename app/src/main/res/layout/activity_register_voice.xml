@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/s_search_bg" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="注册声纹"
+            android:textColor="@color/black_color"
+            android:textSize="20sp" />
+        <ImageView
+            android:layout_centerVertical="true"
+            android:layout_width="16dp"
+            android:layout_height="20dp"
+            android:background="@drawable/v1_7_back_blue_nor"
+            android:layout_marginLeft="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:text="返回"
+            android:textColor="@drawable/text_blue"
+            android:textSize="16sp"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_margin="6dp"
+        android:padding="2dp"
+        android:id="@+id/rl_voice_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:background="@drawable/tm_button_white_bg" >
+
+
+        <TextView
+            android:id="@+id/tv_voice_pwd_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="声纹密码"
+            android:textSize="14sp"
+            android:textColor="#000" />
+
+        <EditText
+            android:enabled="false"
+            android:id="@+id/tv_voice_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_voice_pwd_key"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:hint="点击获取"
+            android:clickable="false"
+            android:background="@null"
+            android:textSize="14sp"
+            android:textColor="#202020" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_margin="6dp"
+        android:padding="2dp"
+        android:id="@+id/rl_register"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:background="@drawable/tm_button_white_bg" >
+
+
+        <TextView
+            android:id="@+id/tv_register_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="注册状态"
+            android:textSize="14sp"
+            android:textColor="#000" />
+
+        <EditText
+            android:enabled="false"
+            android:id="@+id/tv_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_register_key"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:maxLength="20"
+            android:clickable="false"
+            android:singleLine="true"
+            android:hint="点击开始注册"
+            android:background="@null"
+            android:textSize="14sp"
+            android:textColor="#202020" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_margin="6dp"
+        android:padding="2dp"
+        android:id="@+id/rl_check"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:background="@drawable/tm_button_white_bg" >
+
+
+        <TextView
+            android:id="@+id/tv_check_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="验证声纹"
+            android:textSize="14sp"
+            android:textColor="#000" />
+
+        <EditText
+            android:enabled="false"
+            android:id="@+id/tv_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_check_key"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:maxLength="20"
+            android:clickable="false"
+            android:singleLine="true"
+            android:hint="点击开始验证"
+            android:background="@null"
+            android:textSize="14sp"
+            android:textColor="#202020" />
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_margin="6dp"
+        android:padding="2dp"
+        android:id="@+id/rl_que"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:background="@drawable/tm_button_white_bg" >
+
+
+        <TextView
+            android:id="@+id/tv_que_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="查询模型"
+            android:textSize="14sp"
+            android:textColor="#000" />
+
+        <EditText
+            android:enabled="false"
+            android:id="@+id/tv_que"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_que_key"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:maxLength="20"
+            android:clickable="false"
+            android:singleLine="true"
+            android:hint="点击查询"
+            android:background="@null"
+            android:textSize="14sp"
+            android:textColor="#202020" />
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_margin="6dp"
+        android:padding="2dp"
+        android:id="@+id/rl_del"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:background="@drawable/tm_button_white_bg" >
+
+
+        <TextView
+            android:id="@+id/tv_del_key"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="删除模型"
+            android:textSize="14sp"
+            android:textColor="#000" />
+
+        <EditText
+            android:enabled="false"
+            android:id="@+id/tv_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_del_key"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:maxLength="20"
+            android:clickable="false"
+            android:singleLine="true"
+            android:hint="点击删除"
+            android:background="@null"
+            android:textSize="14sp"
+            android:textColor="#202020" />
+
+
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:id="@+id/tv_tip1"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#808080"
+        android:textSize="13.0sp" />
+    <TextView
+        android:id="@+id/tv_tip2"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#808080"
+        android:textSize="13.0sp" />
+    <TextView
+        android:id="@+id/tv_tip3"
+        android:layout_width="fill_parent"
+        android:layout_height="40dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#808080"
+        android:textSize="13.0sp" />
+</LinearLayout>

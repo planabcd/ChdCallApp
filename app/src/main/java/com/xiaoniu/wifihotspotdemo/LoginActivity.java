@@ -7,10 +7,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.alertview.AlertView;
+import com.bigkoo.alertview.OnItemClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
@@ -33,7 +36,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private Button mBtnLogin;
     private TextView mTvForgotPwd;
     private TextView mTvBind;
-   
+    private ImageView mIvVoice;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mBtnLogin.setOnClickListener(this);
         mTvForgotPwd.setOnClickListener(this);
         mTvBind.setOnClickListener(this);
+        mIvVoice.setOnClickListener(this);
 
     }
 
@@ -59,6 +66,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mBtnLogin = (Button) findViewById(R.id.btn_login);
         mTvForgotPwd = (TextView) findViewById(R.id.tv_forgot_pwd);
         mTvBind = (TextView) findViewById(R.id.tv_bind);
+        mIvVoice = (ImageView) findViewById(R.id.iv_voice);
 
        
     }
@@ -76,26 +84,79 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             case R.id.tv_bind:
                 bind();
                 break;
+            case R.id.iv_voice:
+                loginVoice();
+                break;
             default:
                 break;
         }
     }
 
     /**
-     * 创建热点
+     * 声纹登录
      */
-    private void bind() {
-        Intent it = new Intent(LoginActivity.this,TestWifiActivity.class);
-        startActivity(it);
-        finish();
+    private void loginVoice() {
+        //TODO
+        UIUtil.okTips(this,"请确认","欢迎使用声纹登录");
     }
+
+    private void bind() {
+        final String[] s = new String[]{"绑定学生mac地址","绑定教师mac地址","绑定学生声纹","测试音频API","测试wifiAPI"};
+        new AlertView("请选择绑定类型", null, "取消",null, s, this, AlertView.Style.ActionSheet, new OnItemClickListener(){
+
+            @Override
+            public void onItemClick(Object o, int position) {
+                if(position==0){
+                    bindStudentMacAddress();
+                }else if(position==1){
+                    bindTeacherMacAddress();
+                }else if(position==2){
+                    bindVoice();
+                }else if(position==3){
+                    testVoice();
+                }else if(position==4){
+                    testWifi();
+                }
+            }
+        }).setCancelable(true).show();
+    }
+
+    private void bindTeacherMacAddress() {
+        //TODO
+
+        Intent it = new Intent(this,TeacherSettingActivity.class);
+        startActivity(it);
+    }
+
+    private void bindStudentMacAddress() {
+        //TODO
+
+        Intent it = new Intent(LoginActivity.this,StudentInfoActivity.class);
+        startActivity(it);
+    }
+
+    private void testWifi() {
+        Intent it = new Intent(this,TestWifiActivity.class);
+        startActivity(it);
+    }
+
+    private void testVoice() {
+        Intent it = new Intent(this,VoiceRegisterActivity.class);
+        startActivity(it);
+    }
+
+    private void bindVoice() {
+        Intent it = new Intent(this,RegisterVoiceActivity.class);
+        startActivity(it);
+    }
+
+
 
     /**
      * 忘记密码
      */
     private void fogotPwd() {
-        Intent it = new Intent(this,VoiceRegisterActivity.class);
-        startActivity(it);
+        UIUtil.okTips(this,"亲稍等哦","火速开发中...");
     }
 
     private void login() {

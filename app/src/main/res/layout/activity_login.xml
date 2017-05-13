@@ -92,13 +92,14 @@
                         android:inputType="textPassword"
                         android:singleLine="true" />
 
-                    <CheckBox
-                        android:id="@+id/login_switchBtn"
-                        android:layout_width="55dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:button="@drawable/login_hide_password_selector"
-                        android:clickable="true" />
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/icon_mkf"
+                        android:layout_marginRight="20dp"
+                        android:id="@+id/iv_voice"
+                        />
+
 
 
                 </LinearLayout>

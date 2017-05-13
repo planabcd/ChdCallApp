@@ -46,6 +46,7 @@ public class VoiceRegisterActivity extends BaseActivity{
     private String mAuid;
     // 声纹识别对象
     private SpeakerVerifier mVerifier;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +74,8 @@ public class VoiceRegisterActivity extends BaseActivity{
         mTvTip3 = (TextView) findViewById(R.id.tv_tip3);
         mTvTip4 = (TextView) findViewById(R.id.tv_tip4);
         mTvTip5 = (TextView) findViewById(R.id.tv_tip5);
+
+
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
     }
     /**

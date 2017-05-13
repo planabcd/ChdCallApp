@@ -9,7 +9,7 @@ public class Constant {
 
 	public static String URL_TEACHER_GET_MACADDRESS = URL_SERVER+"/rest/teacher/getMac";
 
-	public static String URL_TEACHER_BIND_MACADDRESS = URL_SERVER+"/rest/teacher/bind";
+	public static String URL_TEACHER_BIND_MACADDRESS = URL_SERVER+"/rest/teacher/bindMacAddress";
 
 	public static String URL_CLASS_QUERY_BY_COURSE_ID = URL_SERVER+"/rest/classInfo/queryByCourseId";
 
@@ -40,10 +40,9 @@ public class Constant {
 
 	public static String URL_LOGIN_TEACHER_HISTORY = URL_SERVER+"/rest/tattence/history";
 
-	public static String URL_STUDNET_BIND_MAC_ADDRESS = URL_SERVER+"/rest/student/bind";
+	public static String URL_STUDNET_BIND_MAC_ADDRESS = URL_SERVER+"/rest/student/bindMacAddress";
 
-
-
+	public static String URL_STUDNET_BIND_VOICE = URL_SERVER+"/rest/student/bindVoice";
 
 	public static int ATTENCE_LENGTH = 1; //教师端考勤时间单位分钟
 
