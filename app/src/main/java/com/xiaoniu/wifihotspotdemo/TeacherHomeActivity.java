@@ -87,6 +87,7 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
      * 生成考勤信息二维码
      */
     private void setEr() {
+        UIUtil.okTips(this,"稍等哦","火速开发ing");
     }
 
 

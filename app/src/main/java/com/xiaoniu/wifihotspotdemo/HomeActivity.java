@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import com.mingle.widget.ShapeLoadingDialog;
 import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
+import com.xiaoniu.wifihotspotdemo.util.UIUtil;
 
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
@@ -69,6 +70,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
      * 扫一扫考勤
      */
     private void er() {
+        UIUtil.okTips(this,"稍等哦","火速开发ing");
+
     }
 
 

@@ -296,7 +296,7 @@ public class RegisterVoiceActivity extends BaseActivity  implements View.OnClick
             }
             else{
                 mTvCheck.setText("验证不通过 ");
-                mTvTip2.setText("验证通过");
+                mTvTip2.setText("验证不通过");
                 // 验证不通过
                 switch (result.err) {
                     case VerifierResult.MSS_ERROR_IVP_GENERAL:

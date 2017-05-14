@@ -484,6 +484,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         msg = "音频长达不到自由说的要求";
                         break;
                     default:
+                        msg = "声纹不是本人";
                         break;
                 }
                 UIUtil.alert(LoginActivity.this, "验证失败", "失败原因:\n" + msg, new UIUtil.AlterCallBack() {
