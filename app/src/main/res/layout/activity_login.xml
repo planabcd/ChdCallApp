@@ -180,17 +180,7 @@
                     android:textColor="#ff288dfe"
                     android:textSize="15sp" />
             </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/login_passfind_and_phonelogin"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="13dp"
-                android:gravity="center_vertical" >
-
-            </RelativeLayout>
         </RelativeLayout>
+
     </ScrollView>
 </RelativeLayout>

@@ -175,20 +175,10 @@ public class RegisterVoiceActivity extends BaseActivity  implements View.OnClick
      */
     private void valid() {
         if(TextUtils.isEmpty(mTextPwd)){
-            UIUtil.alert(this, "无法注册","请先获取声纹密码", new UIUtil.AlterCallBack() {
+            UIUtil.alert(this, "无法验证","请先获取声纹密码", new UIUtil.AlterCallBack() {
                 @Override
                 public void confirm() {
                     getPwd();
-                }
-            });
-            return;
-        }
-        String s = mTvRegister.getText().toString();
-        if(!TextUtils.isEmpty(s) || !"注册成功".equals(s)){
-            UIUtil.alert(this, "无法验证","请先注册声纹", new UIUtil.AlterCallBack() {
-                @Override
-                public void confirm() {
-                    register();
                 }
             });
             return;
@@ -236,7 +226,13 @@ public class RegisterVoiceActivity extends BaseActivity  implements View.OnClick
      * 删除模型
      */
     public void del() {
-        performModelOperation("del", mModelOperationListener);
+        UIUtil.alert(this, "请确认","是否删除声纹", new UIUtil.AlterCallBack() {
+            @Override
+            public void confirm() {
+                performModelOperation("del", mModelOperationListener);
+            }
+        });
+
     }
 
     /**
@@ -295,10 +291,12 @@ public class RegisterVoiceActivity extends BaseActivity  implements View.OnClick
 
             if (result.ret == 0) {
                 // 验证通过
-                mTvCheck.setText("验证通过 ");
+                mTvCheck.setText("验证通过");
+                mTvTip2.setText("验证通过");
             }
             else{
                 mTvCheck.setText("验证不通过 ");
+                mTvTip2.setText("验证通过");
                 // 验证不通过
                 switch (result.err) {
                     case VerifierResult.MSS_ERROR_IVP_GENERAL:
@@ -429,6 +427,10 @@ public class RegisterVoiceActivity extends BaseActivity  implements View.OnClick
 
             }else {
                 mTvRegister.setText("注册失败 , 点击重新开始。");
+                mTvVoicePwd.setText("点击获取");
+                mTextPwd = "";
+                mTvTip1.setText("");
+                mTvTip2.setText("");
                 mTvTip3.setText("");
             }
         }
@@ -446,6 +448,8 @@ public class RegisterVoiceActivity extends BaseActivity  implements View.OnClick
         public void onError(SpeechError error) {
             if (error.getErrorCode() == ErrorCode.MSP_ERROR_ALREADY_EXIST) {
                 showTip("模型已存在，如需重新注册，请先删除");
+                mTvTip1.setText("");
+                mTvTip2.setText("");
             } else {
                 showTip("onError Code：" + error.getPlainDescription(true));
             }
@@ -525,12 +529,12 @@ public class RegisterVoiceActivity extends BaseActivity  implements View.OnClick
                     if (ret == ErrorCode.SUCCESS) {
                         showTip("删除成功");
                         mTextPwd = "";
-                        mTvRegister.setText("点击开始注册");
-                        mTvVoicePwd.setText("点击获取");
+                        mTvRegister.setText("");
+                        mTvVoicePwd.setText("");
                         mTvTip1.setText("");
                         mTvTip2.setText("");
                         mTvTip3.setText("");
-                        mTvCheck.setText("点击开始验证");
+                        mTvCheck.setText("");
                     } else if (ret == ErrorCode.MSP_ERROR_FAIL) {
                         showTip("删除失败，模型不存在");
                     }
@@ -594,6 +598,8 @@ public class RegisterVoiceActivity extends BaseActivity  implements View.OnClick
      */
     private void back() {
         finish();
+        Intent it = new Intent(this,LoginActivity.class);
+        startActivity(it);
     }
 
     /**
@@ -608,14 +614,14 @@ public class RegisterVoiceActivity extends BaseActivity  implements View.OnClick
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onDestroy() {
-        if (null != mVerifier) {
-            mVerifier.stopListening();
-            mVerifier.destroy();
-        }
-        super.onDestroy();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        if (null != mVerifier) {
+//            mVerifier.stopListening();
+//            mVerifier.destroy();
+//        }
+//        super.onDestroy();
+//    }
 
     private void showTip(final String str) {
         mToast.setText(str);

@@ -4,6 +4,8 @@ public class Constant {
 	public static String URL_SERVER = "http://119.29.184.87:8091/chd-attence-web/";
 //	public static String URL_SERVER = "http://192.168.56.1";
 
+	public static String URL_LOGIN_STUDENT_CHECK = URL_SERVER+"/rest/student/checkStudent";
+
 	public static String URL_LOGIN_STUDENT = URL_SERVER+"/rest/student/login";
 	public static String URL_LOGIN_TEACHER = URL_SERVER+"/rest/teacher/login";
 
@@ -45,6 +47,7 @@ public class Constant {
 	public static String URL_STUDNET_BIND_VOICE = URL_SERVER+"/rest/student/bindVoice";
 
 	public static int ATTENCE_LENGTH = 1; //教师端考勤时间单位分钟
+
 
 
 }
