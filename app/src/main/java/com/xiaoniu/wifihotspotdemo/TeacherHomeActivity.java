@@ -1,6 +1,9 @@
 package com.xiaoniu.wifihotspotdemo;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,9 +12,12 @@ import android.widget.LinearLayout;
 import com.google.gson.Gson;
 import com.xiaoniu.wifihotspotdemo.common.BaseActivity;
 import com.xiaoniu.wifihotspotdemo.domain.Teacher;
+import com.xiaoniu.wifihotspotdemo.util.ErUtil;
 import com.xiaoniu.wifihotspotdemo.util.GsonBuilderUtil;
 import com.xiaoniu.wifihotspotdemo.util.PrefUtils;
 import com.xiaoniu.wifihotspotdemo.util.UIUtil;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class TeacherHomeActivity extends BaseActivity implements View.OnClickListener {
 
@@ -82,7 +88,13 @@ public class TeacherHomeActivity extends BaseActivity implements View.OnClickLis
      * 生成考勤信息二维码
      */
     private void setEr() {
-        UIUtil.okTips(this, "稍等哦", "火速开发ing");
+        String url = "http://www.baidu.com";
+        Bitmap bitmap = ErUtil.encodeAsBitmap(url);
+        Drawable drawable = new BitmapDrawable(bitmap);
+        new SweetAlertDialog(this, SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                .setTitleText("扫描完成考勤")
+                .setCustomImage(drawable)
+                .show();
     }
 
 
