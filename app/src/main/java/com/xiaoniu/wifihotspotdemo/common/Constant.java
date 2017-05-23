@@ -46,6 +46,8 @@ public class Constant {
 
 	public static String URL_STUDNET_BIND_VOICE = URL_SERVER+"/rest/student/bindVoice";
 
+	public static String URL_REQ_PUSH_TEST = URL_SERVER+"/rest/jpush/testPush";
+
 	public static int ATTENCE_LENGTH = 1; //教师端考勤时间单位分钟
 
 

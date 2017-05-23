@@ -14,4 +14,6 @@
     <string name="weixin_login">微信登录</string>
     <string name="other_login">其他方式登录</string>
     <string name="app_id">58e1fd3b</string>
+    <string name="error_alias_empty">JPush别名为空</string>
+    <string name="error_tag_gs_empty">JPush标签为空</string>
 </resources>

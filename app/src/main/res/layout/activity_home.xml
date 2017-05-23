@@ -225,7 +225,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/iv_er"
-                android:text="扫一扫考勤"
+                android:text="推送测试"
                 android:textSize="16sp"
                 android:textColor="#202020"
 

@@ -76,7 +76,14 @@
         <activity android:name=".TestWifiActivity" />
         <activity android:name=".VoiceRegisterActivity" />
         <activity android:name=".RegisterVoiceActivity" />
-
+        <receiver
+            android:name=".JPushMsgReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <category android:name="com.xiaoniu.wifihotspotdemo" />
+            </intent-filter>
+        </receiver>
 
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote" />
     </application>

@@ -31,7 +31,7 @@ public class SplashActivity extends BaseActivity implements View.OnClickListener
                 startActivity(intent);
                 finish();
             }
-        },1000);
+        },5000);
     }
 
 
