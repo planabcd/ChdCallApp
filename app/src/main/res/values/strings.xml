@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">长安大学点名系统</string>
+    <string name="app_name">CHD点名</string>
     <string name="create_hostspot">创建WIFI热点</string>
     <string name="close_hostspot">关闭WIFI热点</string>
     <string name="send_data">发送数据</string>
