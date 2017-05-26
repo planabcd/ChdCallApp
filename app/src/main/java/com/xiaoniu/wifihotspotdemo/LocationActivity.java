@@ -39,7 +39,7 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
     public BDLocationListener myListener;
     private LatLng curLatLng;
     private BaiduMap mBaiduMap;
-    private Boolean isFirstLoc = true;
+    private volatile Boolean isFirstLoc = true;
     private Marker marker;
     private LocationInfo mLocationInfo;
     @Override
@@ -124,19 +124,12 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
      * 刷新当前位置
      */
     private void refreshLocation() {
-        //TODO
-        UIUtil.showToast(this,"TODO");
-        /*if(mLocationClient!=null){
-            if(!mLocationClient.isStarted()){
-                UIUtil.showToast(this,"正在获取我的位置,请稍等");
-                mLocationClient.start();
-                return;
-            }
-            UIUtil.showToast(this,"正在重新获取我的位置,请稍等");
+        if(mLocationClient!=null){
+            UIUtil.showToastS(this,"正在重新获取我的位置,请稍等");
             mLocationClient.stop();
             isFirstLoc = true;
             mLocationClient.start();
-        }*/
+        }
     }
 
     /**

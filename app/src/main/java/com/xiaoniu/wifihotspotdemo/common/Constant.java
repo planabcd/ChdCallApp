@@ -48,6 +48,8 @@ public class Constant {
 
 	public static String URL_REQ_PUSH_TEST = URL_SERVER+"/rest/jpush/testPush";
 
+	public static String URL_REQ_PUSH_TEACHER_LOCINFO = URL_SERVER+"/rest/jpush/teacher/loc";
+
 	public static int ATTENCE_LENGTH = 1; //教师端考勤时间单位分钟
 
 
